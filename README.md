@@ -44,7 +44,7 @@ https://beta.registro.br/
         
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install regitrobrepp.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install registrobrepp.
 
 ```bash
 pip install git+https://github.com/ivcmartello/registrobrepp.git
