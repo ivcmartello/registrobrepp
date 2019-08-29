@@ -33,7 +33,7 @@ registrobrepp is a python library to manage domains at registro.br
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install regitrobrepp.
 
 ```bash
-pip install registrobrepp
+pip install git+https://github.com/ivcmartello/registroeppbr.git
 ```
 
 ##Examples
