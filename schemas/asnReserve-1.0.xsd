@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="urn:ietf:params:xml:ns:asnReserve-1.0"
+        xmlns:asnReserve="urn:ietf:params:xml:ns:asnReserve-1.0"
+        xmlns:asn="urn:ietf:params:xml:ns:asn-1.0"
+        xmlns:brorg="urn:ietf:params:xml:ns:brorg-1.0"
+        xmlns:epp="urn:ietf:params:xml:ns:epp-1.0"
+        xmlns:eppcom="urn:ietf:params:xml:ns:eppcom-1.0"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+
+  <!--
+      Import common element types.
+  -->
+  <import namespace="urn:ietf:params:xml:ns:eppcom-1.0"
+          schemaLocation="eppcom-1.0.xsd"/>
+  <import namespace="urn:ietf:params:xml:ns:epp-1.0"
+          schemaLocation="epp-1.0.xsd"/>
+  <import namespace="urn:ietf:params:xml:ns:brorg-1.0"
+          schemaLocation="brorg-1.0.xsd"/>
+  <import namespace="urn:ietf:params:xml:ns:asn-1.0"
+          schemaLocation="asn-1.0.xsd"/>
+
+  <annotation>
+    <documentation>
+      Extensible Provisioning Protocol v1.0
+      Autonomous System Numbers Reserve schema.
+    </documentation>
+  </annotation>
+
+  <!--
+      Child elements found in EPP commands.
+  -->
+  <element name="create" type="asnReserve:createType"/>
+  <element name="delete" type="asnReserve:sIDType"/>
+
+  <!--
+      Utility types.
+  -->
+  <simpleType name="identifierType">
+    <restriction base="unsignedInt">
+      <minInclusive value="1"/>
+    </restriction>
+  </simpleType>
+
+  <!--
+      Child elements of the <create> command.
+  -->
+  <complexType name="createType">
+    <sequence>
+      <element name="startASN" type="asn:asnType"/>
+      <element name="endASN" type="asn:asnType"/>
+      <element name="organization" type="brorg:orgIDType"/>
+      <element name="comment" type="string" minOccurs="0"/>
+    </sequence>
+  </complexType>
+     
+  <!--
+      Child element of commands that require only an identifier.
+  -->
+  <complexType name="sIDType">
+    <sequence>
+      <element name="id" type="asnReserve:identifierType"/>
+    </sequence>
+  </complexType>
+
+  <!--
+      Child response elements.
+  -->
+  <element name="creData" type="asnReserve:creDataType"/>
+
+  <!--
+      <create> response elements.
+  -->
+  <complexType name="creDataType">
+    <sequence>
+      <element name="id" type="asnReserve:identifierType"/>
+      <element name="crDate" type="dateTime"/>
+    </sequence>
+  </complexType>
+
+  <!--
+      End of schema.
+  -->
+</schema>

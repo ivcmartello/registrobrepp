@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema targetNamespace="urn:ietf:params:xml:ns:lacnicorg-1.0"
+        xmlns:contact="urn:ietf:params:xml:ns:contact-1.0"
+        xmlns:lacnicorg="urn:ietf:params:xml:ns:lacnicorg-1.0"
+        xmlns:epp="urn:ietf:params:xml:ns:epp-1.0"
+        xmlns:eppcom="urn:ietf:params:xml:ns:eppcom-1.0"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified">
+  
+  <!--
+      Import common element types
+  -->
+  <import namespace="urn:ietf:params:xml:ns:epp-1.0"
+          schemaLocation="epp-1.0.xsd"/>
+  <import namespace="urn:ietf:params:xml:ns:eppcom-1.0"
+          schemaLocation="eppcom-1.0.xsd"/>
+  <import namespace="urn:ietf:params:xml:ns:contact-1.0"
+          schemaLocation="contact-1.0.xsd"/>
+  
+  <annotation>
+    <documentation>
+      Extensible Provisioning Protocol v1.0
+      LACNIC organizational social information schema
+    </documentation>
+  </annotation>
+  
+  <!--
+      Global elements
+  -->
+  <simpleType name="orgTypeAttrType">
+    <restriction base="token">
+      <enumeration value="normal"/>
+      <enumeration value="nir"/>
+      <enumeration value="provider"/>
+      <enumeration value="nir-provider"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="eppStatusAttrType">
+    <restriction base="token">
+      <enumeration value="active"/>
+      <enumeration value="blocked"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="renewalTypeAttrType">
+    <restriction base="token">
+      <enumeration value="legacy"/>
+      <enumeration value="member"/>
+      <enumeration value="end-user"/>
+      <enumeration value="micro"/>
+      <enumeration value="small"/>
+      <enumeration value="medium"/>
+      <enumeration value="large"/>
+      <enumeration value="extra-large"/>
+      <enumeration value="extra-extra-large"/>
+      <enumeration value="founding-partner"/>
+      <enumeration value="b-active"/>
+    </restriction>
+  </simpleType>
+
+  <simpleType name="resourcesClassAttrType">
+    <restriction base="token">
+      <enumeration value="all-resources"/>
+      <enumeration value="non-legacy-only"/>
+    </restriction>
+  </simpleType>
+
+	<!--
+      Data elements that can be added or removed.
+  -->
+  <complexType name="addRemType">
+    <sequence>
+      <element name="eppIP" type="token"
+       minOccurs="0" maxOccurs="unbounded"/>
+      <element name="renewalType" type="lacnicorg:renewalTypeAttrType"
+       minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+	<!--
+      Data elements that can be changed.
+  -->
+  <complexType name="chgType">
+    <sequence>
+      <element name="type" type="lacnicorg:orgTypeAttrType"
+       minOccurs="0"/>
+      <element name="eppStatus" type="lacnicorg:eppStatusAttrType"
+       minOccurs="0"/>
+      <element name="eppPassword" type="token"
+       minOccurs="0"/>
+      <element name="resourcesClass"
+       type="lacnicorg:resourcesClassAttrType" minOccurs="0"/>
+    </sequence>
+  </complexType>
+
+  <!--
+      Child elements found in EPP commands.
+  -->
+  <element name="create" type="lacnicorg:createType"/>
+  <element name="update" type="lacnicorg:updateType"/>
+  
+  <!--
+      Child elements of the <create> command.
+  -->
+  <complexType name="createType">
+    <sequence>
+      <element name="type" type="lacnicorg:orgTypeAttrType"
+       minOccurs="1"/>
+      <element name="eppPassword" type="token"
+       minOccurs="0"/>
+      <element name="eppIP" type="token"
+       minOccurs="0" maxOccurs="unbounded"/>
+      <element name="renewalType" type="lacnicorg:renewalTypeAttrType"
+       minOccurs="0" maxOccurs="unbounded"/>
+      <element name="resourcesClass"
+       type="lacnicorg:resourcesClassAttrType" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  
+  <!--
+      Child elements of the <update> command
+  -->
+  <complexType name="updateType">
+    <sequence>
+      <element name="add" type="lacnicorg:addRemType"
+       minOccurs="0"/>
+      <element name="rem" type="lacnicorg:addRemType"
+       minOccurs="0"/>
+      <element name="chg" type="lacnicorg:chgType" minOccurs="0"/>
+      <element name="password" type="token" minOccurs="0"/>
+    </sequence>
+  </complexType>
+  
+  <!--
+      Child response elements.
+  -->
+  <element name="infData" type="lacnicorg:infDataType"/>
+  
+  <!--
+      <info> response elements.
+  -->
+  <complexType name="infDataType">
+    <sequence>
+      <element name="type" type="lacnicorg:orgTypeAttrType"
+       minOccurs="0"/>
+      <element name="eppStatus" type="lacnicorg:eppStatusAttrType"
+       minOccurs="0"/>
+      <element name="eppIP" type="token"
+       minOccurs="0" maxOccurs="unbounded"/>
+      <element name="renewalType" type="lacnicorg:renewalTypeAttrType"
+       minOccurs="0" maxOccurs="unbounded"/>
+      <element name="renewalDate" type="dateTime"
+       minOccurs="0"/>
+      <element name="resourcesClass"
+       type="lacnicorg:resourcesClassAttrType" minOccurs="0"/>
+      <element name="password" type="token" minOccurs="0"/>
+      <element name="legacy" type="boolean"/>
+    </sequence>
+  </complexType>
+</schema>

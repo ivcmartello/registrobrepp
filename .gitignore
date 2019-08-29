@@ -1,0 +1,6 @@
+.idea
+.tox
+.env
+.pytest_cache
+.coverage
+certificates
