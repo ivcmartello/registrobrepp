@@ -1,6 +1,6 @@
 from eppy.doc import EppTransferContactCommand
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 
 
 class BrEppTransferContactCommand(EppTransferContactCommand):

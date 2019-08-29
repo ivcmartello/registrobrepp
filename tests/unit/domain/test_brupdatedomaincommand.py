@@ -4,15 +4,15 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
+from registrobrepp.domain.contactdomain import ContactDomain
 from registrobrepp.domain.brupdatedomaincommand import ChgDomain, BrEppUpdateDomainCommand, AddDomain, RemDomain
-from registrobrepp.domain.contact import Contact
 from registrobrepp.domain.eppupdatelaunch import EppUpdateLaunch
 from registrobrepp.domain.eppupdatergp import EppUpdateRgp
 from registrobrepp.domain.eppupdatesecdns import EppUpdateSecDns
 from registrobrepp.domain.ns import Ns
 from registrobrepp.domain.statement import Statement
-from registrobrepp.status import Status
+from registrobrepp.common.status import Status
 
 
 class TestBrUpdateDomainCommand:
@@ -21,11 +21,11 @@ class TestBrUpdateDomainCommand:
     def updatedomaincommand(self):
         authinfo = AuthInfo('2BARfoo')
         ns = Ns(['ns2.example.com'])
-        contact = Contact.build(info='mak21', tech=True)
+        contact = ContactDomain.build(info='mak21', tech=True)
         statusadd = Status(s='clientHold', lang='en', info='Payment overdue.')
         add = AddDomain(ns, contact, statusadd)
         ns = Ns(['ns1.example.com'])
-        contact = Contact.build(info='sh8013', tech=True)
+        contact = ContactDomain.build(info='sh8013', tech=True)
         statusrem = Status(s='clientUpdateProhibited')
         rem = RemDomain(ns, contact, statusrem)
         chg = ChgDomain('sh8013', authinfo)
@@ -77,14 +77,14 @@ class TestBrUpdateDomainCommand:
 
         assert updatedomaincommandwithlaunchxmlexpected == xml
 
-    def test_update_domain_response(self, domainxmlschema, responseupdatecommandxmlexpected):
-        response = EppResponse.from_xml(responseupdatecommandxmlexpected)
+    def test_update_domain_response(self, domainxmlschema, responseupdatedomaincommandxmlexpected):
+        response = EppResponse.from_xml(responseupdatedomaincommandxmlexpected)
         xml = response.to_xml(force_prefix=False).decode()
 
         assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
         assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
         assert domainxmlschema.validate(etree.fromstring(xml))
-        assert responseupdatecommandxmlexpected == xml
+        assert responseupdatedomaincommandxmlexpected == xml
 
     def test_update_domain_with_brdomain_case1_response(self, responseupdatedomaincommandwithbrdomainxmlexpected_case1):
         response = EppResponse.from_xml(responseupdatedomaincommandwithbrdomainxmlexpected_case1,

@@ -520,3 +520,18 @@ def updatecontactcommandwithlacnicxmlexpected():
   </command>
 </epp>
 """
+
+@pytest.fixture
+def responseupdatecontactcommandxmlexpected():
+    return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+  <response>
+    <result code="1000">
+      <msg>Command completed successfully</msg>
+    </result>
+    <trID>
+      <clTRID>ABC-12345</clTRID>
+      <svTRID>54321-XYZ</svTRID>
+    </trID>
+  </response>
+</epp>
+"""

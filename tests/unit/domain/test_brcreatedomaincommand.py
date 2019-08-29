@@ -2,9 +2,9 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
+from registrobrepp.domain.contactdomain import ContactDomain
 from registrobrepp.domain.brcreatedomaincommand import BrEppCreateDomainCommand
-from registrobrepp.domain.contact import Contact
 from registrobrepp.domain.eppcreatebrdomain import EppCreateBrDomain
 from registrobrepp.domain.eppcreatelaunch import EppCreateLaunch
 from registrobrepp.domain.eppcreatesecdns import EppCreateSecDns
@@ -18,7 +18,8 @@ class TestBrCreateDomainCommand:
     def eppcreatedomaincommand(self):
         authinfo = AuthInfo('2fooBAR')
         ns = Ns(['ns1.example.net', 'ns2.example.net'])
-        contacts = [Contact.build('sh8013', admin=True), Contact.build('sh8013', tech=True), Contact.build('xxx')]
+        contacts = [ContactDomain.build('sh8013', admin=True), ContactDomain.build('sh8013', tech=True),
+                    ContactDomain.build('xxx')]
         command = BrEppCreateDomainCommand('example.com', ns, authinfo, 2, 'y', 'jd1234', contacts)
         command.add_clTRID('ABC-12345')
         return command

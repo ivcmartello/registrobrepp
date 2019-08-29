@@ -4,14 +4,28 @@
 
 registrobrepp is a python library to manage domains at registro.br
 
+## Test enviroment information
+
+https://beta.registro.br/
+
 ## Table of contents
 
 - [registrobrepp](#registrobrepp)
     * [About](#about)
+    * [Test enviroment information](#test-enviroment-information)
     * [Table of contents](#table-of-contents)
     * [Installation](#installation)
     * [Examples](#examples)
         + [Client](#client)
+        + Asn
+            + [Check Asns](#check-asns)
+            + [Create Asns](#create-asns)
+            + [Create Reserve Asns](#create-reserve-asns)
+            + [Delete Asns](#delete-asns)
+            + [Delete Reserve Asns](#delete-reserve-asns)
+            + [Info Asns](#info-asns)
+            + [Renew Asns](#renew-asns)
+            + [Transfer Asns](#transfer-asns)
         + Contacts
             + [Check contacts](#check-contacts)
             + [Create contacts](#create-contacts)
@@ -63,6 +77,70 @@ resp = registrobr.send(command)
 
 ##Logout
 registrobr.logout()
+```
+
+### Check asns
+```python
+numbers = [12345, 11111]
+command = BrEppCheckAsnCommand(numbers)
+##Send command with a client
+```
+
+### Create asns
+```python
+number = 12345
+organization = 'BR-ABCD-LACNIC'
+contacts = [ContactAsn.build('fan', routing=True), ContactAsn.build('hkk')]
+asIn = ['from AS2 10 accept AS1 A2']
+asOut = ['to AS2 announce AS3 AS4']
+command = BrEppCreateAsnCommand(number, organization, contacts, asIn, asOut)
+##Send command with a client
+```
+
+### Create reserve asns
+```python
+startAsn = 65536
+endAsn = 131072
+organization = 'BR-ABCD-LACNIC'
+comment = 'Test Reservation'
+command = BrEppCreateReserveAsnCommand(startAsn, endAsn, organization, comment)
+##Send command with a client
+```
+
+### Delete asns
+```python
+number = 64500
+command = BrEppDeleteAsnCommand(number)
+##Send command with a client
+```
+
+### Delete reserve asns
+```python
+id = 64500
+command = BrEppDeleteReserveAsnCommand(id)
+##Send command with a client
+```
+
+### Info asns
+```python
+number = 64500
+command = BrEppInfoAsnCommand(number)
+##Send command with a client
+```
+
+### Renew asns
+```python
+number = 64500
+curexpdate = datetime.datetime(2008, 4, 3, 00, 00, 00)
+command = BrEppRenewAsnCommand(number, curexpdate, period=3)
+##Send command with a client
+```
+
+### Transfer asns
+###### 1 - Request
+```python
+number = 64500
+command = BrEppTransferAsnCommand('request', number)
 ```
 
 ### Check contacts

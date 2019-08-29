@@ -1,6 +1,6 @@
 from eppy.doc import EppCreateDomainCommand
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.domain.ns import Ns
 
 

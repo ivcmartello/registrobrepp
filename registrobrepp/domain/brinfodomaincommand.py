@@ -1,6 +1,6 @@
 from eppy.doc import EppInfoDomainCommand
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.domain.infohost import InfoHost
 
 

@@ -1,6 +1,6 @@
 from eppy.doc import EppCreateContactCommand
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.contact.disclose import Disclose
 from registrobrepp.contact.phone import Phone
 from registrobrepp.contact.postalinfo import PostalInfo

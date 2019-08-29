@@ -3,7 +3,7 @@ from eppy.doc import EppResponse
 from lxml import etree
 
 from registrobrepp.contact.addr import Addr
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.contact.brcreatecontactcommand import BrEppCreateContactCommand
 from registrobrepp.contact.disclose import Disclose
 from registrobrepp.contact.eppcreatelacniccontact import EppCreateLacnicContact

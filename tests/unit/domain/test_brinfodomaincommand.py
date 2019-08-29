@@ -2,7 +2,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.domain.brinfodomaincommand import BrEppInfoDomainCommand
 from registrobrepp.domain.eppinfobrdomain import EppInfoBrDomain
 from registrobrepp.domain.eppinfolaunch import EppInfoLaunch

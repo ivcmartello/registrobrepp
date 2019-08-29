@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class ContactType(Enum):
+class ContactDomainType(Enum):
     ADMIN = 'admin'
     TECH = 'tech'
     BILLING = 'billing'

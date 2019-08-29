@@ -4,14 +4,14 @@ from lxml import etree
 
 from registrobrepp.contact.addlacniccontact import AddLacnicContact
 from registrobrepp.contact.addr import Addr
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.contact.brupdatecontactcommand import BrEppUpdateContactCommand
 from registrobrepp.contact.chgcontact import ChgContact
 from registrobrepp.contact.chglacniccontact import ChgLacnicContact
 from registrobrepp.contact.eppupdatelacniccontact import EppUpdateLacnicContact
 from registrobrepp.contact.property import Property
 from registrobrepp.contact.remlacniccontact import RemLacnicContact
-from registrobrepp.status import Status
+from registrobrepp.common.status import Status
 from registrobrepp.contact.disclose import Disclose
 from registrobrepp.contact.phone import Phone
 from registrobrepp.contact.postalinfo import PostalInfo
@@ -53,11 +53,11 @@ class TestBrUpdateContactCommand:
 
         assert updatecontactcommandwithlacnicxmlexpected == xml
 
-    def test_update_contact_response(self, contactxmlschema, responseupdatecommandxmlexpected):
-        response = EppResponse.from_xml(responseupdatecommandxmlexpected)
+    def test_update_contact_response(self, contactxmlschema, responseupdatecontactcommandxmlexpected):
+        response = EppResponse.from_xml(responseupdatecontactcommandxmlexpected)
         xml = response.to_xml(force_prefix=False).decode()
 
         assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
         assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
         assert contactxmlschema.validate(etree.fromstring(xml))
-        assert responseupdatecommandxmlexpected == xml
+        assert responseupdatecontactcommandxmlexpected == xml

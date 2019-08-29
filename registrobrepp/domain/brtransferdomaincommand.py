@@ -1,6 +1,6 @@
 from eppy.doc import EppTransferDomainCommand
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 
 
 class BrEppTransferDomainCommand(EppTransferDomainCommand):

@@ -1,6 +1,6 @@
 from eppy.xmldict import XmlDictObject
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 
 
 class ChgDomain(XmlDictObject):

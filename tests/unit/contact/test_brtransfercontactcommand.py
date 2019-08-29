@@ -1,7 +1,7 @@
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.authinfo import AuthInfo
+from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.contact.brtransfercontactcommand import BrEppTransferContactCommand
 
 
