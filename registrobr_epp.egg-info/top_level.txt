@@ -1,2 +1,0 @@
-registrobrepp
-tests

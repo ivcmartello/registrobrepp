@@ -1,3 +1,0 @@
-EPP==0.9.1
-lxml==4.4.1
-python-decouple
