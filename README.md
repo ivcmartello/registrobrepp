@@ -37,6 +37,7 @@ pip install git+https://github.com/ivcmartello/registroeppbr.git
 ```
 
 ##Examples
+
 ###Client
 ```python
 host='beta.registro.br'
@@ -82,12 +83,14 @@ id = 'ab-12345'
 command = BrEppCreateContactCommand(id, postalinfo, 'jdoe@example.com', authinfo, postalinfo2=postalinfo2, voice=voice, disclose=disclose)
 ##Send command with a client
 ```
+
 ### Delete contacts
 ```python
 id = 'ab-12345'
 command = BrEppDeleteContactCommand(id)
 ##Send command with a client
 ```
+
 ### Info contacts
 ```python
 authinfo = AuthInfo('123')
@@ -95,7 +98,9 @@ id = 'ab-12345'
 command = BrEppInfoContactCommand(id, authinfo)
 ##Send command with a client
 ```
+
 ### Transfer contacts
+
 ###### 1 - Query
 ```python
 authinfo = AuthInfo('123')
@@ -103,6 +108,7 @@ id = 'ab-12345'
 command = BrEppTransferContactCommand('query', id, authinfo)
 ##Send command with a client
 ```
+
 ###### 2 - Request
 ```python
 authinfo = AuthInfo('123')
@@ -110,6 +116,7 @@ id = 'ab-12345'
 command = BrEppTransferContactCommand('request', id, authinfo)
 ##Send command with a client
 ```
+
 ###Update contacts
 ```python
 authinfo = AuthInfo('123')
@@ -131,6 +138,7 @@ names = ['du.eti.br', 'nic.br', 'registro.br']
 command = BrEppCheckDomainCommand(names)
 ##Send command with a client
 ```
+
 ###Create domains
 ```python
 authinfo = AuthInfo('2fooBAR')
@@ -139,23 +147,27 @@ contacts = [Contact.build('sh8013', admin=True), Contact.build('sh8013', tech=Tr
 command = BrEppCreateDomainCommand('example.com.br', ns, authinfo, 2, 'y', 'jd1234', contacts)
 ##Send command with a client
 ```
+
 ###Delete domains
 ```python
 command = BrEppDeleteDomainCommand('example.com.br')
 ##Send command with a client
 ```
+
 ###Info domains
 ```python
 authinfo = AuthInfo('2fooBAR')
 command = BrEppInfoDomainCommand('example.com.br', authinfo)
 ##Send command with a client
 ```
+
 ###Renew domains
 ```python
 curexpdate = datetime.date(2000, 4, 3)
 command = BrEppRenewDomainCommand('example.com.br', curexpdate, 5)
 ##Send command with a client
 ```
+
 ###Transfer domains
 ###### 1 - Query
 ```python
@@ -163,12 +175,14 @@ authinfo = AuthInfo('2fooBAR', roid='JD1234-REP')
 command = BrEppTransferDomainCommand('query', 'example.com.br', authinfo)
 ##Send command with a client
 ```
+
 ###### 2 - Request
 ```python
 authinfo = AuthInfo('2fooBAR', roid='JD1234-REP')
 command = BrEppTransferDomainCommand('request', 'example.com.br', authinfo, period=1)
 ##Send command with a client
 ```
+
 ###Update domains
 ```python
 authinfo = AuthInfo('2BARfoo')
