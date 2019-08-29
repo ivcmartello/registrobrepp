@@ -16,8 +16,8 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     license='MIT',
     install_requires=[
-          'EPP==0.9.1',
-          'lxml==4.4.1',
+          'EPP',
+          'lxml',
           'python-decouple'
     ],
     classifiers=[
