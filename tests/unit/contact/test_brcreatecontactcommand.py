@@ -5,10 +5,16 @@ from lxml import etree
 from registrobrepp.contact.addr import Addr
 from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.contact.brcreatecontactcommand import BrEppCreateContactCommand
+from registrobrepp.contact.contactbrorg import ContactBrOrg
 from registrobrepp.contact.disclose import Disclose
+from registrobrepp.contact.eppcreatebrorg import EppCreateBrOrg
 from registrobrepp.contact.eppcreatelacniccontact import EppCreateLacnicContact
+from registrobrepp.contact.eppcreatelacnicorg import EppCreateLacnicOrg
+from registrobrepp.contact.orgtype import OrgType
 from registrobrepp.contact.phone import Phone
 from registrobrepp.contact.postalinfo import PostalInfo
+from registrobrepp.contact.renewaltype import RenewalType
+from registrobrepp.contact.resourcesclass import ResourcesClass
 
 
 class TestBrCreateContactCommand:
@@ -32,12 +38,33 @@ class TestBrCreateContactCommand:
         assert contactxmlschema.validate(etree.fromstring(xml))
         assert createcontactcommandxmlexpected == xml
 
-    def test_create_contact_with_lacnic_command(self, createcontactcommand, createcontactcommandwithlacnicxmlexpected):
+    def test_create_contact_command_with_lacnic_extension(self, createcontactcommand, createcontactcommandwithlacnicxmlexpected):
         lacnic = EppCreateLacnicContact('abc123')
         createcontactcommand.add_command_extension(lacnic)
         xml = createcontactcommand.to_xml(force_prefix=False).decode()
 
         assert createcontactcommandwithlacnicxmlexpected == xml
+
+    def test_create_contact_command_with_brorg_lacnicorg_extension(self, brorgxmlschema, lacnicorgxmlschema, createcontactcommand, createcontactcommandwithbrorglacnicorgxmlexpected):
+        organization = '005.506.560/0001-36'
+        contacts = [ContactBrOrg.build('fan', admin=True), ContactBrOrg.build('fun'),
+                    ContactBrOrg.build('fuc', member=True)]
+        responsible = 'John Doe'
+        brorg = EppCreateBrOrg(organization, contacts, responsible)
+        createcontactcommand.add_command_extension(brorg)
+        brorgxml = brorg.to_xml(force_prefix=False).decode()
+
+        eppips = ['192.168.0.1', '192.0.2.0/24', '203.0.113.0/24']
+        renewtypes = [RenewalType.MEMBER, RenewalType.SMALL, RenewalType.FOUNDING_PARTNER]
+        lacnicorg = EppCreateLacnicOrg(OrgType.NORMAL, 'abc123', eppips, renewtypes, ResourcesClass.ALL_RESOURCES)
+        createcontactcommand.add_command_extension(lacnicorg)
+        lacnicorgxml = lacnicorg.to_xml(force_prefix=False).decode()
+
+        xml = createcontactcommand.to_xml(force_prefix=False).decode()
+
+        assert brorgxmlschema.validate(etree.fromstring(brorgxml))
+        assert lacnicorgxmlschema.validate(etree.fromstring(lacnicorgxml))
+        assert createcontactcommandwithbrorglacnicorgxmlexpected == xml
 
     def test_create_contact_response(self, contactxmlschema, responsecreatecontactcommandxmlexpected):
         response = EppResponse.from_xml(responsecreatecontactcommandxmlexpected)

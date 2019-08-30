@@ -15,3 +15,4 @@ class ContactAsn(XmlDictObject):
         if routing:
             return ContactAsn(ContactAsnType.ROUTING, info)
         return ContactAsn(ContactAsnType.SECURITY, info)
+

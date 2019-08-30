@@ -9,7 +9,11 @@ from registrobrepp.contact.postalinfo import PostalInfo
 class BrEppCreateContactCommand(EppCreateContactCommand):
     def __init__(self, id, postalinfo1: PostalInfo, email: str, authinfo: AuthInfo, postalinfo2: PostalInfo = None,
                  voice: Phone = None, fax: Phone = None, disclose: Disclose = None):
-        ex_nsmap = {'lacniccontact': 'urn:ietf:params:xml:ns:lacniccontact-1.0'}
+        ex_nsmap = {
+            'lacniccontact': 'urn:ietf:params:xml:ns:lacniccontact-1.0',
+            'brorg': 'urn:ietf:params:xml:ns:brorg-1.0',
+            'lacnicorg': 'urn:ietf:params:xml:ns:lacnicorg-1.0'
+        }
 
         super(BrEppCreateContactCommand, self).__init__(extra_nsmap=ex_nsmap)
 

@@ -20,7 +20,7 @@ class TestBrDeleteDomainCommand:
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert deletedomaincommandxmlexpected == xml
 
-    def test_delete_domain_with_launch_command(self, eppdeletedomaincommand, deletedomaincommandwithlaunchxmlexpected):
+    def test_delete_domain_command_with_launch_extension(self, eppdeletedomaincommand, deletedomaincommandwithlaunchxmlexpected):
         launch = EppDeleteLaunch('sunrise', 'abc123')
         eppdeletedomaincommand.add_command_extension(launch)
         xml = eppdeletedomaincommand.to_xml(force_prefix=False).decode()

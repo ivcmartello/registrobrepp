@@ -30,14 +30,14 @@ class TestBrCreateDomainCommand:
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert createdomaincommandxmlexpected == xml
 
-    def test_create_domain_with_secdns_command(self, eppcreatedomaincommand, createdomaincommandwithsecdnsxmlexpected):
+    def test_create_domain_command_with_secdns_extension(self, eppcreatedomaincommand, createdomaincommandwithsecdnsxmlexpected):
         secdns = EppCreateSecDns('12345', 3, 1, '49FD46E6C4B45C55D4AC')
         eppcreatedomaincommand.add_command_extension(secdns)
         xml = eppcreatedomaincommand.to_xml(force_prefix=False).decode()
 
         assert createdomaincommandwithsecdnsxmlexpected == xml
 
-    def test_create_domain_with_lauch_command(self, eppcreatedomaincommand, createdomaincommandwithlaunchxmlexpected):
+    def test_create_domain_command_with_lauch_extension(self, eppcreatedomaincommand, createdomaincommandwithlaunchxmlexpected):
         smd = Smd('YkM1cFkyRnViaTV2Y21jdmRHMWphRjl3YVd4dmRDNWpjbXd3UlFZRFZSMGdCRDR3UERBNkJnTXFBd1F3TXpBeEJnZ3JCZ0VGQlFjQwpBUllsYUhSMGNEb3ZMM2QzZHk1cFkyRnViaTV2Y21jdmNHbHNiM1JmY21Wd2IzTnBkRzl5ZVRBTkJna3Foa2lHOXcwQkFRc0ZBQU9DCkFRRUFLVWZFSjVYNlFBdHRhampSVnNlSkZReFJYR0hUZ0NhRGs4Qy8xbmoxaWVsWkF1WnRnZFVwV0RVcjBObkdDaStMSFNzZ2RUWVIKK3ZNcnhpcjdFVllRZXZyQm9iRUxreGVURWZqRjlGVnFqQkhJbnlQRkxPRmt6MTV6R0cySXdQSnBzK3ZoQWQvN2dUMHBoMWsyRkVrSgpGR0w1THdSZjFtczRJWDB2RGt4VElYOFF4eTFqY3pDaVNzb1Y4cHdsaGgyTkhBa3BHUVdOL3BUUzBVcWk3dVU1Qm0vSW9HdlBCelVwCjVuNVNqVU1uVFp4LysxekF1ZXJTYWJ0NDgzc1hCY1dzamdsN01xRnRmT05pQXROZU1OZmg2MGxUTXU0emdWd0xaVE80VFFNNVEydXkKbFBQbVp0d25BODhRdk0ySUw4NWNJWUpIZDB6OWpwVVFNQkdIWEYyV1FBPT08L2RzOlg1MDlDZXJ0aWZpY2F0ZT48L2RzOlg1MDlEYXRhPjwvZHM6S2V5SW5mbz48L2RzOlNpZ25hdHVyZT48L3NtZDpzaWduZWRNYXJrPg==')
         launch = EppCreateLaunch('sunrise', smd)
         eppcreatedomaincommand.add_command_extension(launch)
@@ -45,7 +45,7 @@ class TestBrCreateDomainCommand:
 
         assert createdomaincommandwithlaunchxmlexpected == xml
 
-    def test_create_domian_with_brdomain_command(self, eppcreatedomaincommand, createdomaincommandwithbrdomainxmlexpected):
+    def test_create_domian_command_with_brdomain_extension(self, eppcreatedomaincommand, createdomaincommandwithbrdomainxmlexpected):
         brdomain = EppCreateBrDomain('005.506.560/0001-36', flag1='1', autorenew=True)
         eppcreatedomaincommand.add_command_extension(brdomain)
         xml = eppcreatedomaincommand.to_xml(force_prefix=False).decode()

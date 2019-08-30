@@ -28,21 +28,36 @@ https://beta.registro.br/
             + [Info Asns](#info-asns)
             + [Renew Asns](#renew-asns)
             + [Transfer Asns](#transfer-asns)
+            + [Update Asns](#update-asns)
         + Contacts
             + [Check contacts](#check-contacts)
+            + [Check contacts with brorg extension](#check-contacts-with-brorg-extension)
             + [Create contacts](#create-contacts)
+            + [Create contacts with lacniccontact extension](#create-contacts-with-lacniccontact-extension)
+            + [Create contacts with brorg and lacnicorg extension](#create-contacts-with-brorg-and-lacnicorg-extension)
             + [Delete contacts](#delete-contacts)
             + [Info contacts](#info-contacts)
             + [Transfer contacts](#transfer-contacts)
             + [Update contacts](#update-contacts)
         + Domains
             + [Check domains](#check-domains)
+            + [Check domains with launch extension](#check-domains-with-launch-extension)
+            + [Check domains with brorg extension](#check-domains-with-brorg-extension)
             + [Create domains](#create-domains)
+            + [Create domains with secdns extension](#create-domains-with-secdns-extension)
+            + [Create domains with launch extension](#create-domains-with-launch-extension)
+            + [Create domains with brorg extension](#create-domains-with-brorg-extension)
             + [Delete domains](#delete-domains)
+            + [Delete domains with launch extension](#delete-domains-with-launch-extension)
             + [Info domains](#info-domains)
+            + [Info domains with launch extension](#info-domains-with-launch-extension)
+            + [Info domains with brorg extension](#info-domains-with-brorg-extension)
             + [Renew domains](#renew-domains)
             + [Transfer domains](#transfer-domains)
             + [Update domains](#update-domains)
+            + [Update domains with secdns extension](#update-domains-with-secdns-extension)
+            + [Update domains with rgp extension](#update-domains-with-rgp-extension)
+            + [Update domains with launch extension](#update-domains-with-launch-extension)
         
 ## Installation
 
@@ -84,6 +99,7 @@ registrobr.logout()
 ### Check asns
 ```python
 numbers = [12345, 11111]
+
 command = BrEppCheckAsnCommand(numbers)
 ##Send command with a client
 ```
@@ -95,6 +111,7 @@ organization = 'BR-ABCD-LACNIC'
 contacts = [ContactAsn.build('fan', routing=True), ContactAsn.build('hkk')]
 asIn = ['from AS2 10 accept AS1 A2']
 asOut = ['to AS2 announce AS3 AS4']
+
 command = BrEppCreateAsnCommand(number, organization, contacts, asIn, asOut)
 ##Send command with a client
 ```
@@ -105,6 +122,7 @@ startAsn = 65536
 endAsn = 131072
 organization = 'BR-ABCD-LACNIC'
 comment = 'Test Reservation'
+
 command = BrEppCreateReserveAsnCommand(startAsn, endAsn, organization, comment)
 ##Send command with a client
 ```
@@ -112,6 +130,7 @@ command = BrEppCreateReserveAsnCommand(startAsn, endAsn, organization, comment)
 ### Delete asns
 ```python
 number = 64500
+
 command = BrEppDeleteAsnCommand(number)
 ##Send command with a client
 ```
@@ -119,6 +138,7 @@ command = BrEppDeleteAsnCommand(number)
 ### Delete reserve asns
 ```python
 id = 64500
+
 command = BrEppDeleteReserveAsnCommand(id)
 ##Send command with a client
 ```
@@ -126,6 +146,7 @@ command = BrEppDeleteReserveAsnCommand(id)
 ### Info asns
 ```python
 number = 64500
+
 command = BrEppInfoAsnCommand(number)
 ##Send command with a client
 ```
@@ -134,6 +155,7 @@ command = BrEppInfoAsnCommand(number)
 ```python
 number = 64500
 curexpdate = datetime.datetime(2008, 4, 3, 00, 00, 00)
+
 command = BrEppRenewAsnCommand(number, curexpdate, period=3)
 ##Send command with a client
 ```
@@ -142,13 +164,42 @@ command = BrEppRenewAsnCommand(number, curexpdate, period=3)
 ###### 1 - Request
 ```python
 number = 64500
+
 command = BrEppTransferAsnCommand('request', number)
+##Send command with a client
+```
+
+### Update asns
+```python
+number = 64500
+contactsadd = [ContactAsn.build('fan', routing=True)]
+asIn = ['from AS2 10 accept AS1 A2']
+add = AddAsn(contactsadd, asIn)
+contactsrem = [ContactAsn.build('hkk')]
+asOut = ['to AS2 announce AS3 AS4']
+rem = RemAsn(contactsrem, asOut)
+chg = ChgAsn('BR-ABCD-LACNIC')
+creationdate = datetime.datetime(2011, 1, 27, 00, 00, 00)
+
+command = BrEppUpdateAsnCommand(number, creationdate, add, rem, chg)
+##Send command with a client
 ```
 
 ### Check contacts
 ```python
 ids = ['ab-12345', 'aa-11111']
+
 command = BrEppCheckContactCommand(ids)
+##Send command with a client
+```
+
+### Check contacts with brorg extension
+```python
+# First create a BrEppCheckContactCommand, after add the extension
+cds = [Cd('e123456', '043.828.151/0001-45'), Cd('e654321', '005.506.560/0001-36')]
+brorg = EppCheckBrOrg(cds)
+
+command.add_command_extension(brorg)
 ##Send command with a client
 ```
 
@@ -161,13 +212,43 @@ postalinfo2 = PostalInfo.build('Anna Doe', addr, 'Example Inc.', international=T
 authinfo = AuthInfo('123')
 disclose = Disclose(flag=True, name_loc=True, org_loc=True, addr_loc=True, voice=True, fax=True, email=True)
 id = 'ab-12345'
-command = BrEppCreateContactCommand(id, postalinfo, 'jdoe@example.com', authinfo, postalinfo2=postalinfo2, voice=voice, disclose=disclose)
+email = 'jdoe@example.com'
+
+command = BrEppCreateContactCommand(id, postalinfo, email, authinfo, postalinfo2=postalinfo2, voice=voice, disclose=disclose)
+##Send command with a client
+```
+
+### Create contacts with lacniccontact extension
+```python
+# First create a BrEppCreateContactCommand, after add the extension
+lacnic = EppCreateLacnicContact('abc123')
+
+command.add_command_extension(lacnic)
+##Send command with a client
+```
+
+### Create contacts with brorg and lacnicorg extension
+```python
+# First create a BrEppCreateContactCommand, after add the extensions
+organization = '005.506.560/0001-36'
+contacts = [ContactBrOrg.build('fan', admin=True), ContactBrOrg.build('fun'),
+            ContactBrOrg.build('fuc', member=True)]
+responsible = 'John Doe'
+brorg = EppCreateBrOrg(organization, contacts, responsible)
+
+eppips = ['192.168.0.1', '192.0.2.0/24', '203.0.113.0/24']
+renewtypes = [RenewalType.MEMBER, RenewalType.SMALL, RenewalType.FOUNDING_PARTNER]
+lacnicorg = EppCreateLacnicOrg(OrgType.NORMAL, 'abc123', eppips, renewtypes, ResourcesClass.ALL_RESOURCES)
+
+command.add_command_extension(brorg)
+command.add_command_extension(lacnicorg)
 ##Send command with a client
 ```
 
 ### Delete contacts
 ```python
 id = 'ab-12345'
+
 command = BrEppDeleteContactCommand(id)
 ##Send command with a client
 ```
@@ -176,6 +257,7 @@ command = BrEppDeleteContactCommand(id)
 ```python
 authinfo = AuthInfo('123')
 id = 'ab-12345'
+
 command = BrEppInfoContactCommand(id, authinfo)
 ##Send command with a client
 ```
@@ -186,6 +268,7 @@ command = BrEppInfoContactCommand(id, authinfo)
 ```python
 authinfo = AuthInfo('123')
 id = 'ab-12345'
+
 command = BrEppTransferContactCommand('query', id, authinfo)
 ##Send command with a client
 ```
@@ -194,6 +277,7 @@ command = BrEppTransferContactCommand('query', id, authinfo)
 ```python
 authinfo = AuthInfo('123')
 id = 'ab-12345'
+
 command = BrEppTransferContactCommand('request', id, authinfo)
 ##Send command with a client
 ```
@@ -209,6 +293,7 @@ disclose = Disclose(flag=True, name_int=True, org_int=True, addr_int=True, voice
 statusadd = [Status(s='clientDeleteProhibited')]
 statusrem = [Status(s='clientDeleteProhibited')]
 chg = ChgContact(postalinfo, 'jdoe@example.com', authinfo, postalinfo2=postalinfo2, voice=voice, disclose=disclose)
+
 command = BrEppUpdateContactCommand('ab-12345', statusadd, status_rem=statusrem, chg=chg)
 ##Send command with a client
 ```
@@ -216,7 +301,26 @@ command = BrEppUpdateContactCommand('ab-12345', statusadd, status_rem=statusrem,
 ### Check domains
 ```python
 names = ['du.eti.br', 'nic.br', 'registro.br']
+
 command = BrEppCheckDomainCommand(names)
+##Send command with a client
+```
+
+### Check domains with launch extension
+```python
+# First create a BrEppCheckDomainCommand, after add the extension
+launch = EppCheckLaunch.build('claims')
+
+command.add_command_extension(launch)
+##Send command with a client
+```
+
+### Check domains with brorg extension
+```python
+# First create a BrEppCheckDomainCommand, after add the extension
+brdomain = EppCheckBrDomain('005.506.560/0001-36')
+
+command.add_command_extension(brdomain)
 ##Send command with a client
 ```
 
@@ -225,7 +329,36 @@ command = BrEppCheckDomainCommand(names)
 authinfo = AuthInfo('2fooBAR')
 ns = Ns(['ns1.example.net', 'ns2.example.net'])
 contacts = [Contact.build('sh8013', admin=True), Contact.build('sh8013', tech=True)]
+
 command = BrEppCreateDomainCommand('example.com.br', ns, authinfo, 2, 'y', 'jd1234', contacts)
+##Send command with a client
+```
+
+### Create domains with secdns extension
+```python
+# First create a BrEppCreateDomainCommand, after add the extension
+secdns = EppCreateSecDns('12345', 3, 1, '49FD46E6C4B45C55D4AC')
+
+command.add_command_extension(secdns)
+##Send command with a client
+```
+
+### Create domains with launch extension
+```python
+# First create a BrEppCreateDomainCommand, after add the extension
+smd = Smd('YkM1cFkyRnViaTV2Y21jdmRHMWphRjl3YVd4dmRDNWpjbXd3UlFZRFZSMGdCRDR3UERBNkJnTXFBd1F3TXpBeEJnZ3JCZ0VGQlFjQ==')
+launch = EppCreateLaunch('sunrise', smd)
+
+command.add_command_extension(launch)
+##Send command with a client
+```
+
+### Create domains with brorg extension
+```python
+# First create a BrEppCreateDomainCommand, after add the extension
+brdomain = EppCreateBrDomain('005.506.560/0001-36', flag1='1', autorenew=True)
+
+command.add_command_extension(brdomain)
 ##Send command with a client
 ```
 
@@ -235,16 +368,45 @@ command = BrEppDeleteDomainCommand('example.com.br')
 ##Send command with a client
 ```
 
+### Delete domains with launch extension
+```python
+# First create a BrEppDeleteDomainCommand, after add the extension
+launch = EppDeleteLaunch('sunrise', 'abc123')
+
+command.add_command_extension(launch)
+##Send command with a client
+```
+
 ### Info domains
 ```python
 authinfo = AuthInfo('2fooBAR')
+
 command = BrEppInfoDomainCommand('example.com.br', authinfo)
+##Send command with a client
+```
+
+### Info domains with launch extension
+```python
+# First create a BrEppInfoDomainCommand, after add the extension
+launch = EppInfoLaunch('claims', 'abc123')
+
+command.add_command_extension(launch)
+##Send command with a client
+```
+
+### Info domains with brorg extension
+```python
+# First create a BrEppInfoDomainCommand, after add the extension
+brdomain = EppInfoBrDomain('123456')
+
+command.add_command_extension(brdomain)
 ##Send command with a client
 ```
 
 ### Renew domains
 ```python
 curexpdate = datetime.date(2000, 4, 3)
+
 command = BrEppRenewDomainCommand('example.com.br', curexpdate, 5)
 ##Send command with a client
 ```
@@ -253,6 +415,7 @@ command = BrEppRenewDomainCommand('example.com.br', curexpdate, 5)
 ###### 1 - Query
 ```python
 authinfo = AuthInfo('2fooBAR', roid='JD1234-REP')
+
 command = BrEppTransferDomainCommand('query', 'example.com.br', authinfo)
 ##Send command with a client
 ```
@@ -260,6 +423,7 @@ command = BrEppTransferDomainCommand('query', 'example.com.br', authinfo)
 ###### 2 - Request
 ```python
 authinfo = AuthInfo('2fooBAR', roid='JD1234-REP')
+
 command = BrEppTransferDomainCommand('request', 'example.com.br', authinfo, period=1)
 ##Send command with a client
 ```
@@ -276,6 +440,52 @@ contact = Contact.build(info='sh8013', tech=True)
 statusrem = Status(s='clientUpdateProhibited')
 rem = RemDomain(ns, contact, statusrem)
 chg = ChgDomain('sh8013', authinfo)
+
 command = BrEppUpdateDomainCommand('example.com.br', add, rem, chg)
 ##Send command with a client
 ```
+
+### Update domains with secdns extension
+```python
+# First create a BrEppUpdateDomainCommand, after add the extension
+secdns = EppUpdateSecDns('12346', 3, 1, '38EC35D5B3A34B44C39B')
+
+command.add_command_extension(secdns)
+##Send command with a client
+```
+
+### Update domains with rgp extension
+```python
+# First create a BrEppUpdateDomainCommand, after add the extension
+predata = 'Pre-delete registration data goes here. Both XML and free text are allowed.'
+postdata = 'Post-restore registration data goes here. Both XML and free text are allowed.'
+deltime = datetime.datetime(2003, 7, 10, 22, 00, 00)
+restime = datetime.datetime(2003, 7, 20, 22, 00, 00)
+resreason = 'Registrant error.'
+statement1 = 'This registrar has not restored the Registered Name in order to assume the rights to use ' \
+    'or sell the Registered Name for itself or for any ' \
+    'third party.'
+statement2 = 'The information in this report is ' \
+    'true to best of this registrar knowledge, and this ' \
+    'registrar acknowledges that intentionally supplying ' \
+    'false information in this report shall constitute an ' \
+    'incurable material breach of the ' \
+    'Registry-Registrar Agreement.'
+other = 'Supporting information goes here.'
+st1 = Statement(statement1)
+st2 = Statement(statement2, 'en')
+rgp = EppUpdateRgp(predata, postdata, deltime, restime, resreason, [st1, st2], other)
+
+command.add_command_extension(rgp)
+##Send command with a client
+```
+
+### Update domains with launch extension
+```python
+# First create a BrEppUpdateDomainCommand, after add the extension
+launch = EppUpdateLaunch('sunrise', 'abc123')
+
+command.add_command_extension(launch)
+##Send command with a client
+```
+

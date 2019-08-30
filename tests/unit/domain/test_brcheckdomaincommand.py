@@ -22,14 +22,14 @@ class TestBrCheckDomainCommand:
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert checkdomaincommandxmlexpected == xml
 
-    def test_check_domain_with_launch_command(self, eppcheckdomaincommand, checkdomaincommandwithlaunchxmlexpected):
+    def test_check_domain_command_with_launch_extension(self, eppcheckdomaincommand, checkdomaincommandwithlaunchxmlexpected):
         checkLaunch = EppCheckLaunch.build('claims')
         eppcheckdomaincommand.add_command_extension(checkLaunch)
         xml = eppcheckdomaincommand.to_xml(force_prefix=False).decode()
 
         assert checkdomaincommandwithlaunchxmlexpected == xml
 
-    def test_check_domain_with_brdomain_command(self, eppcheckdomaincommand, checkdomaincommandwithbrdomainxmlexpected):
+    def test_check_domain_command_with_brdomain_extension(self, eppcheckdomaincommand, checkdomaincommandwithbrdomainxmlexpected):
         brdomain = EppCheckBrDomain('005.506.560/0001-36')
         eppcheckdomaincommand.add_command_extension(brdomain)
         xml = eppcheckdomaincommand.to_xml(force_prefix=False).decode()

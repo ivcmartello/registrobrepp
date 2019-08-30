@@ -39,14 +39,14 @@ class TestBrUpdateDomainCommand:
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert updatedomaincommandxmlexpected == xml
 
-    def test_update_domain_with_secdns_command(self, updatedomaincommand, updatedomaincommandwithsecdnsxmlexpected):
+    def test_update_domain_command_with_secdns_extension(self, updatedomaincommand, updatedomaincommandwithsecdnsxmlexpected):
         secdns = EppUpdateSecDns('12346', 3, 1, '38EC35D5B3A34B44C39B')
         updatedomaincommand.add_command_extension(secdns)
         xml = updatedomaincommand.to_xml(force_prefix=False).decode()
 
         assert updatedomaincommandwithsecdnsxmlexpected == xml
 
-    def test_update_domain_with_rgp_command(self, updatedomaincommand, updatedomaincommandwithrgpxmlexpected):
+    def test_update_domain_command_with_rgp_extension(self, updatedomaincommand, updatedomaincommandwithrgpxmlexpected):
         predata = 'Pre-delete registration data goes here. Both XML and free text are allowed.'
         postdata = 'Post-restore registration data goes here. Both XML and free text are allowed.'
         deltime = datetime.datetime(2003, 7, 10, 22, 00, 00)
@@ -70,7 +70,7 @@ class TestBrUpdateDomainCommand:
 
         assert updatedomaincommandwithrgpxmlexpected == xml
 
-    def test_update_domain_with_launch_command(self, updatedomaincommand, updatedomaincommandwithlaunchxmlexpected):
+    def test_update_domain_command_with_launch_extension(self, updatedomaincommand, updatedomaincommandwithlaunchxmlexpected):
         launch = EppUpdateLaunch('sunrise', 'abc123')
         updatedomaincommand.add_command_extension(launch)
         xml = updatedomaincommand.to_xml(force_prefix=False).decode()

@@ -333,3 +333,46 @@ def responsetransferrequestasncommandxmlexpected():
   </response>
 </epp>
 """
+
+
+@pytest.fixture
+def updateasncommandxmlexpected():
+    return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+  <command>
+    <update>
+      <asn:update xmlns="urn:ietf:params:xml:ns:asn-1.0" xmlns:asn="urn:ietf:params:xml:ns:asn-1.0">
+        <number>64500</number>
+        <add>
+          <contact type="routing">fan</contact>
+          <asIn>from AS2 10 accept AS1 A2</asIn>
+        </add>
+        <rem>
+          <contact type="security">hkk</contact>
+          <asOut>to AS2 announce AS3 AS4</asOut>
+        </rem>
+        <chg>
+          <organization>BR-ABCD-LACNIC</organization>
+        </chg>
+        <creation_date>2011-01-27T00:00:00.0Z</creation_date>
+      </asn:update>
+    </update>
+    <clTRID>ABC-12345</clTRID>
+  </command>
+</epp>
+"""
+
+
+@pytest.fixture
+def responseupdateasncommandxmlexpected():
+    return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+  <response>
+    <result code='1000'>
+      <msg>Command completed successfully</msg>
+    </result>
+    <trID>
+      <clTRID>ABC-12345</clTRID>
+      <svTRID>54321-XYZ</svTRID>
+    </trID>
+  </response>
+</epp>
+"""

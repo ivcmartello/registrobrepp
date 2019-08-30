@@ -23,14 +23,14 @@ class TestBrInfoDomainCommand:
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert infodomaincommandxmlexpected == xml
 
-    def test_info_domain_with_launch_command(self, eppinfodomaincommand, infodomaincommandwithlaunchxmlexpected):
+    def test_info_domain_command_with_launch_extension(self, eppinfodomaincommand, infodomaincommandwithlaunchxmlexpected):
         launch = EppInfoLaunch('claims', 'abc123')
         eppinfodomaincommand.add_command_extension(launch)
         xml = eppinfodomaincommand.to_xml(force_prefix=False).decode()
 
         assert infodomaincommandwithlaunchxmlexpected == xml
 
-    def test_info_domain_with_brdomain_command(self, eppinfodomaincommand, infodomaincommandwithbrdomainxmlexpected):
+    def test_info_domain_command_with_brdomain_extension(self, eppinfodomaincommand, infodomaincommandwithbrdomainxmlexpected):
         brdomain = EppInfoBrDomain('123456')
         eppinfodomaincommand.add_command_extension(brdomain)
         xml = eppinfodomaincommand.to_xml(force_prefix=False).decode()
