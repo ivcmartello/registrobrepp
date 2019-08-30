@@ -1,5 +1,7 @@
 # registrobrepp
 
+[![Build Status](https://travis-ci.org/ivcmartello/registrobrepp.png?branch=master)](https://travis-ci.org/ivcmartello/registrobrepp)
+
 ## About
 
 registrobrepp is a python library to manage domains at registro.br
