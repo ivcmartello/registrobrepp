@@ -11,8 +11,7 @@ class BrEppUpdateAsnCommand(EppCommand):
     _path = ('epp', 'command', 'update', 'asn:update')
 
     def __init__(self, number: int, creationdate: datetime, add: AddAsn = None, rem: RemAsn = None, chg: ChgAsn = None):
-        ex_nsmap = {'asn': 'urn:ietf:params:xml:ns:asn-1.0'}
-        super(BrEppUpdateAsnCommand, self).__init__(extra_nsmap=ex_nsmap)
+        super(BrEppUpdateAsnCommand, self).__init__(extra_nsmap={'asn': 'urn:ietf:params:xml:ns:asn-1.0'})
 
         self.number = number
         self.add = add

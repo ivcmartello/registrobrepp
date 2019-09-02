@@ -33,7 +33,7 @@ class TestBrCreateContactCommand:
         return command
 
     def test_create_contact_command(self, createcontactcommand, contactxmlschema, createcontactcommandxmlexpected):
-        xml = createcontactcommand.to_xml(force_prefix=False).decode()
+        xml = createcontactcommand.to_xml(force_prefix=True).decode()
 
         assert contactxmlschema.validate(etree.fromstring(xml))
         assert createcontactcommandxmlexpected == xml
@@ -41,7 +41,7 @@ class TestBrCreateContactCommand:
     def test_create_contact_command_with_lacnic_extension(self, createcontactcommand, createcontactcommandwithlacnicxmlexpected):
         lacnic = EppCreateLacnicContact('abc123')
         createcontactcommand.add_command_extension(lacnic)
-        xml = createcontactcommand.to_xml(force_prefix=False).decode()
+        xml = createcontactcommand.to_xml(force_prefix=True).decode()
 
         assert createcontactcommandwithlacnicxmlexpected == xml
 
@@ -52,15 +52,15 @@ class TestBrCreateContactCommand:
         responsible = 'John Doe'
         brorg = EppCreateBrOrg(organization, contacts, responsible)
         createcontactcommand.add_command_extension(brorg)
-        brorgxml = brorg.to_xml(force_prefix=False).decode()
+        brorgxml = brorg.to_xml(force_prefix=True).decode()
 
         eppips = ['192.168.0.1', '192.0.2.0/24', '203.0.113.0/24']
         renewtypes = [RenewalType.MEMBER, RenewalType.SMALL, RenewalType.FOUNDING_PARTNER]
         lacnicorg = EppCreateLacnicOrg(OrgType.NORMAL, 'abc123', eppips, renewtypes, ResourcesClass.ALL_RESOURCES)
         createcontactcommand.add_command_extension(lacnicorg)
-        lacnicorgxml = lacnicorg.to_xml(force_prefix=False).decode()
+        lacnicorgxml = lacnicorg.to_xml(force_prefix=True).decode()
 
-        xml = createcontactcommand.to_xml(force_prefix=False).decode()
+        xml = createcontactcommand.to_xml(force_prefix=True).decode()
 
         assert brorgxmlschema.validate(etree.fromstring(brorgxml))
         assert lacnicorgxmlschema.validate(etree.fromstring(lacnicorgxml))
@@ -68,12 +68,21 @@ class TestBrCreateContactCommand:
 
     def test_create_contact_response(self, contactxmlschema, responsecreatecontactcommandxmlexpected):
         response = EppResponse.from_xml(responsecreatecontactcommandxmlexpected)
-        xml = response.to_xml(force_prefix=False).decode()
+        xml = response.to_xml(force_prefix=True).decode()
         data = response['epp']['response']['resData']['contact:creData']
 
-        assert 'sh8013' == data['id']
-        assert '1999-04-03T22:00:00.0Z' == data['crDate']
+        assert 'sh8013' == data.id
+        assert '1999-04-03T22:00:00.0Z' == data.crDate
         assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
         assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
         assert contactxmlschema.validate(etree.fromstring(xml))
         assert responsecreatecontactcommandxmlexpected == xml
+
+    def test_create_contact_with_brorg_response(self, responsecreatecontactcommandwithbrorgxmlexpected):
+        response = EppResponse.from_xml(responsecreatecontactcommandwithbrorgxmlexpected,
+                                        extra_nsmap={'brorg': 'urn:ietf:params:xml:ns:brorg-1.0'})
+        extension = response.get_response_extension('brorg:creData')
+
+        assert '005.506.560/0001-36' == extension.organization
+        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
+        assert 'DEF-54321' == response['epp']['response']['trID']['svTRID']

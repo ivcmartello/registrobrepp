@@ -44,6 +44,8 @@ registrobrepp/contact/eppcheckbrorg.py
 registrobrepp/contact/eppcreatebrorg.py
 registrobrepp/contact/eppcreatelacniccontact.py
 registrobrepp/contact/eppcreatelacnicorg.py
+registrobrepp/contact/eppdeletebrorg.py
+registrobrepp/contact/eppinfobrorg.py
 registrobrepp/contact/eppupdatelacniccontact.py
 registrobrepp/contact/infotype.py
 registrobrepp/contact/orgtype.py

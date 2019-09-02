@@ -5,9 +5,8 @@ class EppUpdateLaunch(EppDoc):
     _path = ('launch:update',)
 
     def __init__(self, phase: str, applicationid: str):
-
         dct = {
-            'launch: update': {
+            'launch:update': {
                 'phase': phase,
                 'applicationID': applicationid
             }

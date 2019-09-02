@@ -10,7 +10,7 @@ class TestBrTransferReserveAsnCommand:
         number = 64500
         command = BrEppTransferAsnCommand('request', number)
         command.add_clTRID('ABC-12345')
-        xml = command.to_xml(force_prefix=False).decode()
+        xml = command.to_xml(force_prefix=True).decode()
 
         assert asnxmlschema.validate(etree.fromstring(xml))
         assert transferrequestasncommandxmlexpected == xml
@@ -18,7 +18,7 @@ class TestBrTransferReserveAsnCommand:
     def test_transfer_request_asn_response(self, asnxmlschema, responsetransferrequestasncommandxmlexpected):
         response = EppResponse.from_xml(responsetransferrequestasncommandxmlexpected,
                                         extra_nsmap={'asn': 'urn:ietf:params:xml:ns:asn-1.0'})
-        xml = response.to_xml(force_prefix=False).decode()
+        xml = response.to_xml(force_prefix=True).decode()
         data = response['epp']['response']['resData']['asn:trnData']
 
         assert '64500' == data.number

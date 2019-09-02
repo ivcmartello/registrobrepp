@@ -34,7 +34,7 @@ class TestBrUpdateDomainCommand:
         return command
 
     def test_update_domain_command(self, updatedomaincommand, domainxmlschema, updatedomaincommandxmlexpected):
-        xml = updatedomaincommand.to_xml(force_prefix=False).decode()
+        xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert updatedomaincommandxmlexpected == xml
@@ -42,7 +42,7 @@ class TestBrUpdateDomainCommand:
     def test_update_domain_command_with_secdns_extension(self, updatedomaincommand, updatedomaincommandwithsecdnsxmlexpected):
         secdns = EppUpdateSecDns('12346', 3, 1, '38EC35D5B3A34B44C39B')
         updatedomaincommand.add_command_extension(secdns)
-        xml = updatedomaincommand.to_xml(force_prefix=False).decode()
+        xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
         assert updatedomaincommandwithsecdnsxmlexpected == xml
 
@@ -66,20 +66,20 @@ class TestBrUpdateDomainCommand:
         st2 = Statement(statement2, 'en')
         rgp = EppUpdateRgp(predata, postdata, deltime, restime, resreason, [st1, st2], other)
         updatedomaincommand.add_command_extension(rgp)
-        xml = updatedomaincommand.to_xml(force_prefix=False).decode()
+        xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
         assert updatedomaincommandwithrgpxmlexpected == xml
 
     def test_update_domain_command_with_launch_extension(self, updatedomaincommand, updatedomaincommandwithlaunchxmlexpected):
         launch = EppUpdateLaunch('sunrise', 'abc123')
         updatedomaincommand.add_command_extension(launch)
-        xml = updatedomaincommand.to_xml(force_prefix=False).decode()
+        xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
         assert updatedomaincommandwithlaunchxmlexpected == xml
 
     def test_update_domain_response(self, domainxmlschema, responseupdatedomaincommandxmlexpected):
         response = EppResponse.from_xml(responseupdatedomaincommandxmlexpected)
-        xml = response.to_xml(force_prefix=False).decode()
+        xml = response.to_xml(force_prefix=True).decode()
 
         assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
         assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']

@@ -36,7 +36,7 @@ class TestBrUpdateContactCommand:
         return command
 
     def test_update_contact_command(self, updatecontactcommand, contactxmlschema, updatecontactcommandxmlexpected):
-        xml = updatecontactcommand.to_xml(force_prefix=False).decode()
+        xml = updatecontactcommand.to_xml(force_prefix=True).decode()
 
         assert contactxmlschema.validate(etree.fromstring(xml))
         assert updatecontactcommandxmlexpected == xml
@@ -49,13 +49,13 @@ class TestBrUpdateContactCommand:
         chg = ChgLacnicContact('abc123')
         lacnic = EppUpdateLacnicContact(add, rem, chg)
         updatecontactcommand.add_command_extension(lacnic)
-        xml = updatecontactcommand.to_xml(force_prefix=False).decode()
+        xml = updatecontactcommand.to_xml(force_prefix=True).decode()
 
         assert updatecontactcommandwithlacnicxmlexpected == xml
 
     def test_update_contact_response(self, contactxmlschema, responseupdatecontactcommandxmlexpected):
         response = EppResponse.from_xml(responseupdatecontactcommandxmlexpected)
-        xml = response.to_xml(force_prefix=False).decode()
+        xml = response.to_xml(force_prefix=True).decode()
 
         assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
         assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']

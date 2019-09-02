@@ -11,14 +11,14 @@ class TestBrTransferDomainCommand:
         authinfo = AuthInfo('2fooBAR', roid='JD1234-REP')
         command = BrEppTransferDomainCommand('query', 'example.com', authinfo)
         command.add_clTRID('ABC-12345')
-        xml = command.to_xml(force_prefix=False).decode()
+        xml = command.to_xml(force_prefix=True).decode()
 
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert transferquerydomaincommandxmlexpected == xml
 
     def test_transfer_domain_query_response(self, domainxmlschema, responsetransferquerydomaincommandxmlexpected):
         response = EppResponse.from_xml(responsetransferquerydomaincommandxmlexpected)
-        xml = response.to_xml(force_prefix=False).decode()
+        xml = response.to_xml(force_prefix=True).decode()
 
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert responsetransferquerydomaincommandxmlexpected == xml
@@ -27,14 +27,14 @@ class TestBrTransferDomainCommand:
         authinfo = AuthInfo('2fooBAR', roid='JD1234-REP')
         command = BrEppTransferDomainCommand('request', 'example.com', authinfo, period=1)
         command.add_clTRID('ABC-12345')
-        xml = command.to_xml(force_prefix=False).decode()
+        xml = command.to_xml(force_prefix=True).decode()
 
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert transferrequestdomaincommandxmlexpected == xml
 
     def test_transfer_domain_request_response(self, domainxmlschema, responsetransferrequestdomaincommandxmlexpected):
         response = EppResponse.from_xml(responsetransferrequestdomaincommandxmlexpected)
-        xml = response.to_xml(force_prefix=False).decode()
+        xml = response.to_xml(force_prefix=True).decode()
 
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert responsetransferrequestdomaincommandxmlexpected == xml
