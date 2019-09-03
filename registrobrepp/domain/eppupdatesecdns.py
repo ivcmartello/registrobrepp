@@ -18,5 +18,4 @@ class EppUpdateSecDns(EppDoc):
                 }
             }
         }
-
-        super(EppUpdateSecDns, self).__init__(dct)
+        super(EppUpdateSecDns, self).__init__(dct=self.annotate(dct))

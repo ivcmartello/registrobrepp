@@ -5,9 +5,16 @@ class BrEppCheckAsnCommand(EppCommand):
     _path = ('epp', 'command', 'check', 'asn:check')
 
     def __init__(self, numbers: list):
-        super(BrEppCheckAsnCommand, self).__init__(
-            extra_nsmap={
-                'asn': 'urn:ietf:params:xml:ns:asn-1.0'
-            })
-
-        self.number = numbers
+        dct = {
+            'epp': {
+                'command': {
+                    'check': {
+                        'asn:check': {
+                            'number': numbers
+                        }
+                    }
+                }
+            }
+        }
+        extra_nsmap = {'asn': 'urn:ietf:params:xml:ns:asn-1.0'}
+        super(BrEppCheckAsnCommand, self).__init__(dct=self.annotate(dct), extra_nsmap=extra_nsmap)

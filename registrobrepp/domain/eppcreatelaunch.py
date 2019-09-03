@@ -12,8 +12,6 @@ class EppCreateLaunch(EppDoc):
                 'phase': phase,
             },
         }
-
         if smd:
             dct['launch:create']['smd:encodedSignedMark'] = smd
-
-        super(EppCreateLaunch, self).__init__(dct)
+        super(EppCreateLaunch, self).__init__(dct=self.annotate(dct))

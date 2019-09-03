@@ -5,10 +5,11 @@ from registrobrepp.asn.contactasntype import ContactAsnType
 
 class ContactAsn(XmlDictObject):
     def __init__(self, contactType: ContactAsnType, info: str):
-        super(ContactAsn, self).__init__()
-
-        self['@type'] = contactType.value
-        self['_text'] = info
+        dct = {
+            '@type': contactType.value,
+            '_text': info
+        }
+        super(ContactAsn, self).__init__(initdict=dct)
 
     @staticmethod
     def build(info: str, routing: bool = False):

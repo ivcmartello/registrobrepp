@@ -15,5 +15,4 @@ class EppCreateSecDns(EppDoc):
                 },
             },
         }
-
-        super(EppCreateSecDns, self).__init__(dct)
+        super(EppCreateSecDns, self).__init__(dct=self.annotate(dct))

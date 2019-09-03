@@ -18,7 +18,7 @@ class TestBrDeleteContactCommand:
         xml = deletecontactcommand.to_xml(force_prefix=True).decode()
 
         assert contactxmlschema.validate(etree.fromstring(xml))
-        assert deletecontactcommandxmlexpected == xml
+        assert xml == deletecontactcommandxmlexpected
 
     def test_delete_contact_command_with_brorg_extension(self, deletecontactcommand, brorgxmlschema,
                                                          deletecontactcommandwithbrorgxmlexpected):
@@ -28,13 +28,13 @@ class TestBrDeleteContactCommand:
         xml = deletecontactcommand.to_xml(force_prefix=True).decode()
 
         assert brorgxmlschema.validate(etree.fromstring(deletebrorgxml))
-        assert deletecontactcommandwithbrorgxmlexpected == xml
+        assert xml == deletecontactcommandwithbrorgxmlexpected
 
     def test_delete_contact_response(self, contactxmlschema, responsedeletecontactcommandxmlexpected):
         response = EppResponse.from_xml(responsedeletecontactcommandxmlexpected)
         xml = response.to_xml(force_prefix=True).decode()
 
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54321-XYZ'
         assert contactxmlschema.validate(etree.fromstring(xml))
-        assert responsedeletecontactcommandxmlexpected == xml
+        assert xml == responsedeletecontactcommandxmlexpected

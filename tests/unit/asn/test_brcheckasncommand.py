@@ -13,7 +13,7 @@ class TestBrCheckAsnCommand:
         xml = command.to_xml(force_prefix=True).decode()
 
         assert asnxmlschema.validate(etree.fromstring(xml))
-        assert checkasncommandxmlexpected == xml
+        assert xml == checkasncommandxmlexpected
 
     def test_check_asn_response(self, asnxmlschema, responsecheckasncommandxmlexpected):
         response = EppResponse.from_xml(responsecheckasncommandxmlexpected,
@@ -21,9 +21,9 @@ class TestBrCheckAsnCommand:
         xml = response.to_xml(force_prefix=True).decode()
         cd = response['epp']['response']['resData']['asn:chkData']['cd']
 
-        assert '0' == cd.number['@avail']
-        assert '64500' == cd.number['_text']
-        assert 'In use' == cd.reason
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54322-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert cd.number['@avail'] == '0'
+        assert cd.number['_text'] == '64500'
+        assert cd.reason == 'In use'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54322-XYZ'
         assert asnxmlschema.validate(etree.fromstring(xml))

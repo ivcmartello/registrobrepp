@@ -14,23 +14,23 @@ class TestBrTransferContactCommand:
         xml = command.to_xml(force_prefix=True).decode()
 
         assert contactxmlschema.validate(etree.fromstring(xml))
-        assert transferquerycontactcommandxmlexpected == xml
+        assert xml == transferquerycontactcommandxmlexpected
 
     def test_transfer_contact_query_response(self, contactxmlschema, responsetransferquerycontactcommandxmlexpected):
         response = EppResponse.from_xml(responsetransferquerycontactcommandxmlexpected)
         xml = response.to_xml(force_prefix=True).decode()
         data = response['epp']['response']['resData']['contact:trnData']
 
-        assert 'sh8013' == data.id
-        assert 'pending' == data.trStatus
-        assert 'ClientX' == data.reID
-        assert '2000-06-06T22:00:00.0Z' == data.reDate
-        assert 'ClientY' == data.acID
-        assert '2000-06-11T22:00:00.0Z' == data.acDate
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54322-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert data.id == 'sh8013'
+        assert data.trStatus == 'pending'
+        assert data.reID == 'ClientX'
+        assert data.reDate == '2000-06-06T22:00:00.0Z'
+        assert data.acID == 'ClientY'
+        assert data.acDate == '2000-06-11T22:00:00.0Z'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54322-XYZ'
         assert contactxmlschema.validate(etree.fromstring(xml))
-        assert responsetransferquerycontactcommandxmlexpected == xml
+        assert xml == responsetransferquerycontactcommandxmlexpected
 
     def test_transfer_contact_request_command(self, contactxmlschema, transferrequestcontactcommandxmlexpected):
         authinfo = AuthInfo('123')
@@ -39,20 +39,20 @@ class TestBrTransferContactCommand:
         xml = command.to_xml(force_prefix=True).decode()
 
         assert contactxmlschema.validate(etree.fromstring(xml))
-        assert transferrequestcontactcommandxmlexpected == xml
+        assert xml == transferrequestcontactcommandxmlexpected
 
     def test_transfer_contact_request_response(self, contactxmlschema, responsetransferrequestcontactcommandxmlexpected):
         response = EppResponse.from_xml(responsetransferrequestcontactcommandxmlexpected)
         xml = response.to_xml(force_prefix=True).decode()
         data = response['epp']['response']['resData']['contact:trnData']
 
-        assert 'sh8013' == data.id
-        assert 'pending' == data.trStatus
-        assert 'ClientX' == data.reID
-        assert '2000-06-08T22:00:00.0Z' == data.reDate
-        assert 'ClientY' == data.acID
-        assert '2000-06-13T22:00:00.0Z' == data.acDate
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54322-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert data.id == 'sh8013'
+        assert data.trStatus == 'pending'
+        assert data.reID == 'ClientX'
+        assert data.reDate == '2000-06-08T22:00:00.0Z'
+        assert data.acID == 'ClientY'
+        assert data.acDate == '2000-06-13T22:00:00.0Z'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54322-XYZ'
         assert contactxmlschema.validate(etree.fromstring(xml))
         assert responsetransferrequestcontactcommandxmlexpected == xml

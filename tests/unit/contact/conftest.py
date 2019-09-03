@@ -840,6 +840,102 @@ def updatecontactcommandwithlacnicxmlexpected():
 
 
 @pytest.fixture
+def updatecontactcommandwithbrorgandlacnicorgxmlexpected():
+    return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+  <command>
+    <update>
+      <contact:update xmlns:contact="urn:ietf:params:xml:ns:contact-1.0">
+        <contact:id>ab-12345</contact:id>
+        <contact:add>
+          <contact:status s="clientDeleteProhibited" />
+        </contact:add>
+        <contact:rem>
+          <contact:status s="clientDeleteProhibited" />
+        </contact:rem>
+        <contact:chg>
+          <contact:postalInfo type="loc">
+            <contact:name>Joe Doe</contact:name>
+            <contact:org>Example Inc.</contact:org>
+            <contact:addr>
+              <contact:street>123 Example Dr.</contact:street>
+              <contact:street>Suite 100</contact:street>
+              <contact:street>xyz</contact:street>
+              <contact:city>Dulles</contact:city>
+              <contact:sp>VA</contact:sp>
+              <contact:pc>20166-6503</contact:pc>
+              <contact:cc>US</contact:cc>
+            </contact:addr>
+          </contact:postalInfo>
+          <contact:postalInfo type="int">
+            <contact:name>Anna Doe</contact:name>
+            <contact:org>Example Inc.</contact:org>
+            <contact:addr>
+              <contact:street>123 Example Dr.</contact:street>
+              <contact:street>Suite 100</contact:street>
+              <contact:street>xyz</contact:street>
+              <contact:city>Dulles</contact:city>
+              <contact:sp>VA</contact:sp>
+              <contact:pc>20166-6503</contact:pc>
+              <contact:cc>US</contact:cc>
+            </contact:addr>
+          </contact:postalInfo>
+          <contact:voice x="1234">+1.7035555555</contact:voice>
+          <contact:email>jdoe@example.com</contact:email>
+          <contact:authInfo>
+            <contact:pw>123</contact:pw>
+          </contact:authInfo>
+          <contact:disclose flag="1">
+            <contact:name type="int" />
+            <contact:org type="int" />
+            <contact:addr type="int" />
+            <contact:voice />
+            <contact:fax />
+            <contact:email />
+          </contact:disclose>
+        </contact:chg>
+      </contact:update>
+    </update>
+    <extension>
+      <brorg:update xmlns:brorg="urn:ietf:params:xml:ns:brorg-1.0">
+        <brorg:organization>005.506.560/0001-36</brorg:organization>
+        <brorg:add>
+          <brorg:contact type="admin">hkk</brorg:contact>
+        </brorg:add>
+        <brorg:rem>
+          <brorg:contact type="admin">fan</brorg:contact>
+        </brorg:rem>
+        <brorg:chg>
+          <brorg:responsible>Responsible Name</brorg:responsible>
+          <brorg:exDate>2009-02-01T12:00:00.0Z</brorg:exDate>
+          <brorg:suspended>true</brorg:suspended>
+        </brorg:chg>
+      </brorg:update>
+      <lacnicorg:update xmlns:lacnicorg="urn:ietf:params:xml:ns:lacnicorg-1.0">
+        <lacnicorg:add>
+          <lacnicorg:eppIP>192.168.0.1</lacnicorg:eppIP>
+          <lacnicorg:eppIP>192.0.2.0/24</lacnicorg:eppIP>
+          <lacnicorg:renewalType>large</lacnicorg:renewalType>
+        </lacnicorg:add>
+        <lacnicorg:rem>
+          <lacnicorg:eppIP>203.0.113.0/24</lacnicorg:eppIP>
+          <lacnicorg:renewalType>small</lacnicorg:renewalType>
+        </lacnicorg:rem>
+        <lacnicorg:chg>
+          <lacnicorg:type>normal</lacnicorg:type>
+          <lacnicorg:eppStatus>active</lacnicorg:eppStatus>
+          <lacnicorg:eppPassword>abc123</lacnicorg:eppPassword>
+          <lacnicorg:resourcesClass>non-legacy-only</lacnicorg:resourcesClass>
+        </lacnicorg:chg>
+        <lacnicorg:password>abc123</lacnicorg:password>
+      </lacnicorg:update>
+    </extension>
+    <clTRID>ABC-12345</clTRID>
+  </command>
+</epp>
+"""
+
+
+@pytest.fixture
 def responseupdatecontactcommandxmlexpected():
     return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
   <response>

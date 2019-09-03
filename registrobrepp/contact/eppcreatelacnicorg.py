@@ -17,6 +17,5 @@ class EppCreateLacnicOrg(EppDoc):
                 'resourcesClass': resourcesclass.value
             },
         }
-
-        super(EppCreateLacnicOrg, self).\
-            __init__(dct, extra_nsmap={'lacnicorg': 'urn:ietf:params:xml:ns:lacnicorg-1.0'})
+        extra_nsmap = {'lacnicorg': 'urn:ietf:params:xml:ns:lacnicorg-1.0'}
+        super(EppCreateLacnicOrg, self).__init__(dct=self.annotate(dct), extra_nsmap=extra_nsmap)

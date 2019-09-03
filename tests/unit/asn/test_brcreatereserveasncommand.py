@@ -16,7 +16,7 @@ class TestBrCreateReserveAsnCommand:
         xml = command.to_xml(force_prefix=True).decode()
 
         assert asnreservexmlschema.validate(etree.fromstring(xml))
-        assert createreserveasncommandxmlexpected == xml
+        assert xml == createreserveasncommandxmlexpected
 
     def test_create_reserve_asn_response(self, asnreservexmlschema, responsecreatereserveasncommandxmlexpected):
         response = EppResponse.from_xml(responsecreatereserveasncommandxmlexpected,
@@ -24,8 +24,8 @@ class TestBrCreateReserveAsnCommand:
         xml = response.to_xml(force_prefix=True).decode()
         data = response['epp']['response']['resData']['asnReserve:creData']
 
-        assert '1024' == data.id
-        assert '1999-04-03T22:00:00.0Z' == data.crDate
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert data.id == '1024'
+        assert data.crDate == '1999-04-03T22:00:00.0Z'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54321-XYZ'
         assert asnreservexmlschema.validate(etree.fromstring(xml))

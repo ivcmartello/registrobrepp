@@ -9,13 +9,15 @@ from registrobrepp.contact.postalinfo import PostalInfo
 class ChgContact(XmlDictObject):
     def __init__(self, postalinfo1: PostalInfo, email: str, authinfo: AuthInfo, postalinfo2: PostalInfo = None,
                  voice: Phone = None, fax: Phone = None, disclose: Disclose = None):
-        super(ChgContact, self).__init__()
-
-        self.postalInfo = [postalinfo1]
+        postalinfo = [postalinfo1]
         if postalinfo2:
-            self.postalInfo.append(postalinfo2)
-        self.voice = voice
-        self.fax = fax
-        self.email = email
-        self.authInfo = authinfo
-        self.disclose = disclose
+            postalinfo.append(postalinfo2)
+        dct = {
+            'postalInfo': postalinfo,
+            'voice': voice,
+            'fax': fax,
+            'email': email,
+            'authInfo': authinfo,
+            'disclose': disclose
+        }
+        super(ChgContact, self).__init__(initdict=dct)

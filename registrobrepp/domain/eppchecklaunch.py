@@ -13,9 +13,8 @@ class EppCheckLaunch(EppDoc):
                 'phase': phase,
             },
         }
-
-        super(EppCheckLaunch, self).__init__(dct)
+        super(EppCheckLaunch, self).__init__(dct=self.annotate(dct))
 
     @staticmethod
-    def build(info: str, claim: bool = False):
+    def build(info: str):
         return EppCheckLaunch(LaunchType.CLAIMS, info)

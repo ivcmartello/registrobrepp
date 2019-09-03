@@ -5,10 +5,11 @@ from registrobrepp.contact.contactbrorgtype import ContactBrOrgType
 
 class ContactBrOrg(XmlDictObject):
     def __init__(self, contactType: ContactBrOrgType, info: str):
-        super(ContactBrOrg, self).__init__()
-
-        self['@type'] = contactType.value
-        self['_text'] = info
+        dct = {
+            '@type': contactType.value,
+            '_text': info
+        }
+        super(ContactBrOrg, self).__init__(initdict=dct)
 
     @staticmethod
     def build(info: str, admin: bool = False, member: bool = False):

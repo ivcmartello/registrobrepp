@@ -23,7 +23,7 @@ class TestBrCreateAsnCommand:
         xml = createasncommand.to_xml(force_prefix=True).decode()
 
         assert asnxmlschema.validate(etree.fromstring(xml))
-        assert createasncommandxmlexpected == xml
+        assert xml == createasncommandxmlexpected
 
     def test_create_asn_response(self, asnxmlschema, responseasncommandxmlexpected):
         response = EppResponse.from_xml(responseasncommandxmlexpected,
@@ -31,9 +31,9 @@ class TestBrCreateAsnCommand:
         xml = response.to_xml(force_prefix=True).decode()
         data = response['epp']['response']['resData']['asn:creData']
 
-        assert '64500' == data.number
-        assert '64500-REP' == data.roid
-        assert '1999-04-03T22:00:00.0Z' == data.crDate
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert data.number == '64500'
+        assert data.roid == '64500-REP'
+        assert data.crDate == '1999-04-03T22:00:00.0Z'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54321-XYZ'
         assert asnxmlschema.validate(etree.fromstring(xml))

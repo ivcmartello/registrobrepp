@@ -5,10 +5,11 @@ from registrobrepp.domain.contactdomaintype import ContactDomainType
 
 class ContactDomain(XmlDictObject):
     def __init__(self, contactType: ContactDomainType, info: str):
-        super(ContactDomain, self).__init__()
-
-        self['@type'] = contactType.value
-        self['_text'] = info
+        dct = {
+            '@type': contactType.value,
+            '_text': info
+        }
+        super(ContactDomain, self).__init__(initdict=dct)
 
     @staticmethod
     def build(info: str, admin: bool = False, tech: bool = False):

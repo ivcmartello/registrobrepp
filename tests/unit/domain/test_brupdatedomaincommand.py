@@ -37,14 +37,14 @@ class TestBrUpdateDomainCommand:
         xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
         assert domainxmlschema.validate(etree.fromstring(xml))
-        assert updatedomaincommandxmlexpected == xml
+        assert xml == updatedomaincommandxmlexpected
 
     def test_update_domain_command_with_secdns_extension(self, updatedomaincommand, updatedomaincommandwithsecdnsxmlexpected):
         secdns = EppUpdateSecDns('12346', 3, 1, '38EC35D5B3A34B44C39B')
         updatedomaincommand.add_command_extension(secdns)
         xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
-        assert updatedomaincommandwithsecdnsxmlexpected == xml
+        assert xml == updatedomaincommandwithsecdnsxmlexpected
 
     def test_update_domain_command_with_rgp_extension(self, updatedomaincommand, updatedomaincommandwithrgpxmlexpected):
         predata = 'Pre-delete registration data goes here. Both XML and free text are allowed.'
@@ -68,47 +68,47 @@ class TestBrUpdateDomainCommand:
         updatedomaincommand.add_command_extension(rgp)
         xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
-        assert updatedomaincommandwithrgpxmlexpected == xml
+        assert xml == updatedomaincommandwithrgpxmlexpected
 
     def test_update_domain_command_with_launch_extension(self, updatedomaincommand, updatedomaincommandwithlaunchxmlexpected):
         launch = EppUpdateLaunch('sunrise', 'abc123')
         updatedomaincommand.add_command_extension(launch)
         xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
-        assert updatedomaincommandwithlaunchxmlexpected == xml
+        assert xml == updatedomaincommandwithlaunchxmlexpected
 
     def test_update_domain_response(self, domainxmlschema, responseupdatedomaincommandxmlexpected):
         response = EppResponse.from_xml(responseupdatedomaincommandxmlexpected)
         xml = response.to_xml(force_prefix=True).decode()
 
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54321-XYZ'
         assert domainxmlschema.validate(etree.fromstring(xml))
-        assert responseupdatedomaincommandxmlexpected == xml
+        assert xml == responseupdatedomaincommandxmlexpected
 
     def test_update_domain_with_brdomain_case1_response(self, responseupdatedomaincommandwithbrdomainxmlexpected_case1):
         response = EppResponse.from_xml(responseupdatedomaincommandwithbrdomainxmlexpected_case1,
                                         extra_nsmap={'brdomain': 'urn:ietf:params:xml:ns:brdomain-1.0'})
         extension = response.get_response_extension('brdomain:updData')
 
-        assert '123456' == extension['ticketNumber']
-        assert 'notReceived' == extension['pending']['doc']['@status']
-        assert 'CNPJ' == extension['pending']['doc']['docType']
-        assert '2006-03-01T22:00:00.0Z' == extension['pending']['doc']['limit']
-        assert 'pt' == extension['pending']['doc']['description']['@lang']
-        assert 'Cadastro Nacional da Pessoa Juridica' == extension['pending']['doc']['description']['_text']
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert extension['ticketNumber'] == '123456'
+        assert extension['pending']['doc']['@status'] == 'notReceived'
+        assert extension['pending']['doc']['docType'] == 'CNPJ'
+        assert extension['pending']['doc']['limit'] == '2006-03-01T22:00:00.0Z'
+        assert extension['pending']['doc']['description']['@lang'] == 'pt'
+        assert extension['pending']['doc']['description']['_text'] == 'Cadastro Nacional da Pessoa Juridica'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54321-XYZ'
 
     def test_update_domain_with_brdomain_case2_response(self, responseupdatedomaincommandwithbrdomainxmlexpected_case2):
         response = EppResponse.from_xml(responseupdatedomaincommandwithbrdomainxmlexpected_case2,
                                         extra_nsmap={'brdomain': 'urn:ietf:params:xml:ns:brdomain-1.0'})
         extension = response.get_response_extension('brdomain:updData')
 
-        assert 'ns2.example.com' == extension['hostStatus']['hostName']
-        assert 'Query refused' == extension['hostStatus']['dnsAnswer']
-        assert 'onHold' == extension['publicationStatus']['@publicationFlag']
-        assert 'billing' in extension['publicationStatus']['onHoldReason']
-        assert 'dns' in extension['publicationStatus']['onHoldReason']
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54321-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert extension['hostStatus']['hostName'] == 'ns2.example.com'
+        assert extension['hostStatus']['dnsAnswer'] == 'Query refused'
+        assert extension['publicationStatus']['@publicationFlag'] == 'onHold'
+        assert extension['publicationStatus']['onHoldReason'][0] == 'billing'
+        assert extension['publicationStatus']['onHoldReason'][1] == 'dns'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54321-XYZ'

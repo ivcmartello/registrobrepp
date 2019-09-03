@@ -16,5 +16,5 @@ class EppUpdateLacnicContact(EppDoc):
                 'chg': chg
             },
         }
-
-        super(EppUpdateLacnicContact, self).__init__(dct, extra_nsmap={'lacniccontact': 'urn:ietf:params:xml:ns:lacniccontact-1.0'})
+        extra_nsmap = {'lacniccontact': 'urn:ietf:params:xml:ns:lacniccontact-1.0'}
+        super(EppUpdateLacnicContact, self).__init__(dct=self.annotate(dct), extra_nsmap=extra_nsmap)

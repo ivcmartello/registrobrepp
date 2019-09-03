@@ -7,9 +7,18 @@ from registrobrepp.domain.remdomain import RemDomain
 
 class BrEppUpdateDomainCommand(EppUpdateDomainCommand):
     def __init__(self, name: str, add: AddDomain = None, rem: RemDomain = None, chg: ChgDomain = None):
-        super(BrEppUpdateDomainCommand, self).__init__()
-
-        self.name = name
-        self.add = add
-        self.rem = rem
-        self.chg = chg
+        dct = {
+            'epp': {
+                'command': {
+                    'update': {
+                        'domain:update': {
+                            'name': name,
+                            'add': add,
+                            'rem': rem,
+                            'chg': chg
+                        }
+                    }
+                }
+            }
+        }
+        super(BrEppUpdateDomainCommand, self).__init__(dct=self.annotate(dct))

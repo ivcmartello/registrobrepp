@@ -6,11 +6,13 @@ from registrobrepp.contact.infotype import InfoType
 
 class PostalInfo(XmlDictObject):
     def __init__(self, infotype: InfoType, name: str, address: Addr, organization: str = None):
-        super(PostalInfo, self).__init__()
-        self['@type'] = infotype.value
-        self.name = name
-        self.org = organization
-        self.addr = address
+        dct = {
+            '@type': infotype.value,
+            'name': name,
+            'org': organization,
+            'addr': address
+        }
+        super(PostalInfo, self).__init__(initdict=dct)
 
     @staticmethod
     def build(name: str, address: Addr, organization: str = None, international: bool = False):

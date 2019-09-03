@@ -5,10 +5,9 @@ class EppInfoBrDomain(EppDoc):
     _path = ('brdomain:info', )
 
     def __init__(self, ticketnumber: str):
-        dict = {
+        dct = {
             'brdomain:info': {
                 'ticketNumber': ticketnumber
             }
         }
-
-        super(EppInfoBrDomain, self).__init__(dict)
+        super(EppInfoBrDomain, self).__init__(dct=self.annotate(dct))

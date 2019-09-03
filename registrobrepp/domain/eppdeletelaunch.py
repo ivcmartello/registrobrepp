@@ -9,7 +9,6 @@ class EppDeleteLaunch(EppDoc):
             'launch:delete': {
                 'phase': phase,
                 'applicationID': applicationid
-            },
+            }
         }
-
-        super(EppDeleteLaunch, self).__init__(dct)
+        super(EppDeleteLaunch, self).__init__(dct=self.annotate(dct))

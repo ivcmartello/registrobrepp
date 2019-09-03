@@ -11,5 +11,4 @@ class EppUpdateLaunch(EppDoc):
                 'applicationID': applicationid
             }
         }
-
-        super(EppUpdateLaunch, self).__init__(dct)
+        super(EppUpdateLaunch, self).__init__(dct=self.annotate(dct))

@@ -24,5 +24,4 @@ class EppUpdateRgp(EppDoc):
                 },
             },
         }
-
-        super(EppUpdateRgp, self).__init__(dct)
+        super(EppUpdateRgp, self).__init__(dct=self.annotate(dct))

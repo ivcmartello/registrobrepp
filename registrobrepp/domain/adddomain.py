@@ -7,8 +7,9 @@ from registrobrepp.common.status import Status
 
 class AddDomain(XmlDictObject):
     def __init__(self, ns: Ns = None, contact: ContactDomain = None, status: Status = None):
-        super(AddDomain, self).__init__()
-
-        self.ns = ns
-        self.contact = contact
-        self.status = status
+        dct = {
+            'ns': ns,
+            'contact': contact,
+            'status': status
+        }
+        super(AddDomain, self).__init__(initdict=dct)

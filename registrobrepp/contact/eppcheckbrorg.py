@@ -5,10 +5,10 @@ class EppCheckBrOrg(EppDoc):
     _path = ('brorg:check',)
 
     def __init__(self, cds):
-        dict = {
+        dct = {
             'brorg:check': {
                 'cd': cds
             }
         }
-
-        super(EppCheckBrOrg, self).__init__(dict, extra_nsmap={'brorg': 'urn:ietf:params:xml:ns:brorg-1.0'})
+        extra_nsmap = {'brorg': 'urn:ietf:params:xml:ns:brorg-1.0'}
+        super(EppCheckBrOrg, self).__init__(dct=self.annotate(dct), extra_nsmap=extra_nsmap)

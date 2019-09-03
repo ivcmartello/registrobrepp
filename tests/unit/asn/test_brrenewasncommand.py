@@ -16,7 +16,7 @@ class TestBrRenewAsnCommand:
         xml = command.to_xml(force_prefix=True).decode()
 
         assert asnxmlschema.validate(etree.fromstring(xml))
-        assert renewasncommandxmlexpected == xml
+        assert xml == renewasncommandxmlexpected
 
     def test_renew_asn_response(self, asnxmlschema, responserenewasncommandxmlexpected):
         response = EppResponse.from_xml(responserenewasncommandxmlexpected,
@@ -24,6 +24,6 @@ class TestBrRenewAsnCommand:
         xml = response.to_xml(force_prefix=True).decode()
         data = response['epp']['response']['resData']['asn:renData']
 
-        assert '64500' == data.number
-        assert '2011-04-03T00:00:00.0Z' == data.exDate
+        assert data.number == '64500'
+        assert data.exDate == '2011-04-03T00:00:00.0Z'
         assert asnxmlschema.validate(etree.fromstring(xml))

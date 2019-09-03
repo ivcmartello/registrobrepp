@@ -20,19 +20,19 @@ class TestBrRenewDomainCommand:
         xml = brepprenewdomaincommand.to_xml(force_prefix=True).decode()
 
         assert domainxmlschema.validate(etree.fromstring(xml))
-        assert renewdomaincommandxmlexpected == xml
+        assert xml == renewdomaincommandxmlexpected
 
     def test_renew_domain_response(self, domainxmlschema, responserenewdomaincommandxmlexpected):
         response = EppResponse.from_xml(responserenewdomaincommandxmlexpected)
         xml = response.to_xml(force_prefix=True).decode()
         data = response['epp']['response']['resData']['domain:renData']
 
-        assert 'example.com' == data.name
-        assert '2005-04-03T22:00:00.0Z' == data.exDate
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54322-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert data.name == 'example.com'
+        assert data.exDate == '2005-04-03T22:00:00.0Z'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54322-XYZ'
         assert domainxmlschema.validate(etree.fromstring(xml))
-        assert responserenewdomaincommandxmlexpected == xml
+        assert xml == responserenewdomaincommandxmlexpected
 
     def test_renew_domain_with_brdomain_response(self, responserenewdomaincommandwithbrdomaixmlexpected):
         response = EppResponse.from_xml(responserenewdomaincommandwithbrdomaixmlexpected,
@@ -41,8 +41,8 @@ class TestBrRenewDomainCommand:
         publicationflag = extension.publicationStatus['@publicationFlag']
         reasons = extension.publicationStatus[publicationflag + 'Reason']
 
-        assert 'onHold' == publicationflag
-        assert 'billing' in reasons
-        assert 'dns' in reasons
-        assert 'ABC-12345' == response['epp']['response']['trID']['clTRID']
-        assert '54322-XYZ' == response['epp']['response']['trID']['svTRID']
+        assert publicationflag == 'onHold'
+        assert reasons[0] == 'billing'
+        assert reasons[1] == 'dns'
+        assert response['epp']['response']['trID']['clTRID'] == 'ABC-12345'
+        assert response['epp']['response']['trID']['svTRID'] == '54322-XYZ'

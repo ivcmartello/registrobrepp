@@ -12,5 +12,4 @@ class EppInfoLaunch(EppDoc):
                 'applicationID': applicationid
             },
         }
-
-        super(EppInfoLaunch, self).__init__(dct)
+        super(EppInfoLaunch, self).__init__(dct=self.annotate(dct))
