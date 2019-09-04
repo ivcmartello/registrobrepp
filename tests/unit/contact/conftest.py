@@ -534,6 +534,78 @@ def responseinfocontactcommandxmlexpected():
 
 
 @pytest.fixture
+def responseinfocontactcommandwithlacnicxmlexpected():
+    return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">"
+  <response>
+    <result code='1000'>
+      <msg>Command completed successfully</msg>
+    </result>
+    <resData>
+      <contact:infData xmlns:contact="urn:ietf:params:xml:ns:contact-1.0">
+        <contact:id>cme254</contact:id>
+        <contact:roid>SH8013-REP</contact:roid>
+        <contact:status s="clientDeleteProhibited"/>
+        <contact:status s="linked"/>
+        <contact:postalInfo type="int">
+          <contact:name>John Doe</contact:name>
+          <contact:org>Example Inc.</contact:org>
+          <contact:addr>
+            <contact:street>123 Example Dr.</contact:street>
+            <contact:street>Suite 100</contact:street>
+            <contact:city>Dulles</contact:city>
+            <contact:sp>VA</contact:sp>
+            <contact:pc>20166-6503</contact:pc>
+            <contact:cc>US</contact:cc>
+          </contact:addr>
+        </contact:postalInfo>
+        <contact:postalInfo type="loc">
+          <contact:name>John Doe</contact:name>
+          <contact:org>Other Inc.</contact:org>
+          <contact:addr>
+            <contact:street>123 Street</contact:street>
+            <contact:street>7th floor</contact:street>
+            <contact:street>Suite 123</contact:street>
+            <contact:city>Miami</contact:city>
+            <contact:cc>US</contact:cc>
+          </contact:addr>
+        </contact:postalInfo>
+        <contact:voice x="1234">+1.7035555555</contact:voice>
+        <contact:fax x="3456">+1.7035555556</contact:fax>
+        <contact:email>jdoe@example.com</contact:email>
+        <contact:clID>ClientY</contact:clID>
+        <contact:crID>ClientX</contact:crID>
+        <contact:crDate>1999-04-03T22:00:00.0Z</contact:crDate>
+        <contact:upID>ClientX</contact:upID>
+        <contact:upDate>1999-12-03T09:00:00.0Z</contact:upDate>
+        <contact:trDate>2000-04-08T09:00:00.0Z</contact:trDate>
+        <contact:authInfo>
+          <contact:pw>2fooBAR</contact:pw>
+        </contact:authInfo>
+        <contact:disclose flag="0">
+          <contact:voice/>
+          <contact:email/>
+        </contact:disclose>
+      </contact:infData>
+    </resData>
+    <extension>
+      <lacniccontact:infData xmlns:lacniccontact="urn:ietf:params:xml:ns:lacniccontact-1.0">
+        <lacniccontact:reminder>My first pet name</lacniccontact:reminder>
+        <lacniccontact:language>pt</lacniccontact:language>
+        <lacniccontact:property>inactive</lacniccontact:property>
+        <lacniccontact:property>bulkwhois</lacniccontact:property>
+        <lacniccontact:legacy>true</lacniccontact:legacy>
+      </lacniccontact:infData>
+    </extension>
+    <trID>
+      <clTRID>ABC-12345</clTRID>
+      <svTRID>DEF-54321</svTRID>
+    </trID>
+  </response>
+</epp>
+"""
+
+
+@pytest.fixture
 def responseinfocontactcommandwithbrorgxmlexpected():
     return """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">

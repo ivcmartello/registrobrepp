@@ -5,6 +5,8 @@ from eppy.doc import EppResponse
 from lxml import etree
 
 from registrobrepp.common.authinfo import AuthInfo
+from registrobrepp.common.language import Language
+from registrobrepp.common.statustype import StatusDomainType
 from registrobrepp.domain.contactdomain import ContactDomain
 from registrobrepp.domain.brupdatedomaincommand import ChgDomain, BrEppUpdateDomainCommand, AddDomain, RemDomain
 from registrobrepp.domain.eppupdatelaunch import EppUpdateLaunch
@@ -12,7 +14,7 @@ from registrobrepp.domain.eppupdatergp import EppUpdateRgp
 from registrobrepp.domain.eppupdatesecdns import EppUpdateSecDns
 from registrobrepp.domain.ns import Ns
 from registrobrepp.domain.statement import Statement
-from registrobrepp.common.status import Status
+from registrobrepp.common.status import StatusDomain
 
 
 class TestBrUpdateDomainCommand:
@@ -22,11 +24,11 @@ class TestBrUpdateDomainCommand:
         authinfo = AuthInfo('2BARfoo')
         ns = Ns(['ns2.example.com'])
         contact = ContactDomain.build(info='mak21', tech=True)
-        statusadd = Status(s='clientHold', lang='en', info='Payment overdue.')
+        statusadd = StatusDomain(StatusDomainType.CLIENTHOLD, 'Payment overdue.', Language.EN)
         add = AddDomain(ns, contact, statusadd)
         ns = Ns(['ns1.example.com'])
         contact = ContactDomain.build(info='sh8013', tech=True)
-        statusrem = Status(s='clientUpdateProhibited')
+        statusrem = StatusDomain(StatusDomainType.CLIENTUPDATEPROHIBITED)
         rem = RemDomain(ns, contact, statusrem)
         chg = ChgDomain('sh8013', authinfo)
         command = BrEppUpdateDomainCommand('example.com', add, rem, chg)

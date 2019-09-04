@@ -4,6 +4,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
+from registrobrepp.common.statustype import StatusContactType
 from registrobrepp.contact.addbrorg import AddBrOrg
 from registrobrepp.contact.addlacniccontact import AddLacnicContact
 from registrobrepp.contact.addlacnicorg import AddLacnicOrg
@@ -24,7 +25,7 @@ from registrobrepp.contact.orgtype import OrgType
 from registrobrepp.contact.property import Property
 from registrobrepp.contact.rembrorg import RemBrOrg
 from registrobrepp.contact.remlacniccontact import RemLacnicContact
-from registrobrepp.common.status import Status
+from registrobrepp.common.status import StatusContact
 from registrobrepp.contact.disclose import Disclose
 from registrobrepp.contact.phone import Phone
 from registrobrepp.contact.postalinfo import PostalInfo
@@ -43,8 +44,8 @@ class TestBrUpdateContactCommand:
         postalinfo = PostalInfo.build('Joe Doe', addr, 'Example Inc.')
         postalinfo2 = PostalInfo.build('Anna Doe', addr, 'Example Inc.', international=True)
         disclose = Disclose(flag=True, name_int=True, org_int=True, addr_int=True, voice=True, fax=True, email=True)
-        statusadd = [Status(s='clientDeleteProhibited')]
-        statusrem = [Status(s='clientDeleteProhibited')]
+        statusadd = [StatusContact(StatusContactType.CLIENTDELETEPROHIBITED)]
+        statusrem = [StatusContact(StatusContactType.CLIENTDELETEPROHIBITED)]
         chg = ChgContact(postalinfo, 'jdoe@example.com', authinfo, postalinfo2=postalinfo2, voice=voice,
                          disclose=disclose)
         command = BrEppUpdateContactCommand('ab-12345', statusadd, status_rem=statusrem, chg=chg)

@@ -69,6 +69,19 @@ class TestBrInfoContactCommand:
         assert contactxmlschema.validate(etree.fromstring(xml))
         assert xml == responseinfocontactcommandxmlexpected
 
+    def test_info_contact_with_lacnic_response(self, responseinfocontactcommandwithlacnicxmlexpected):
+        response = EppResponse.from_xml(
+            responseinfocontactcommandwithlacnicxmlexpected, extra_nsmap={
+                'lacniccontact': 'urn:ietf:params:xml:ns:lacniccontact-1.0',
+            })
+        lacnicextension = response.get_response_extension('lacniccontact:infData')
+
+        assert lacnicextension.reminder == 'My first pet name'
+        assert lacnicextension.language == 'pt'
+        assert lacnicextension.property[0] == 'inactive'
+        assert lacnicextension.property[1] == 'bulkwhois'
+        assert lacnicextension.legacy == 'true'
+
     def test_info_contact_with_brorg_response(self, responseinfocontactcommandwithbrorgxmlexpected):
         response = EppResponse.from_xml(
             responseinfocontactcommandwithbrorgxmlexpected, extra_nsmap={
