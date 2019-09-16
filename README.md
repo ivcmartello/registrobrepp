@@ -65,6 +65,7 @@ https://beta.registro.br/
             + [Update domains with secdns extension](#update-domains-with-secdns-extension)
             + [Update domains with rgp extension](#update-domains-with-rgp-extension)
             + [Update domains with launch extension](#update-domains-with-launch-extension)
+            + [Update domains with brdomain extension](#update-domains-with-brdomain-extension)
         + IpNetworks
             + [Check ipnetworks](#check-ipnetworks)
             + [Create ipnetworks](#create-ipnetworks)
@@ -576,6 +577,15 @@ command.add_command_extension(rgp)
 launch = EppUpdateLaunch('sunrise', 'abc123')
 
 command.add_command_extension(launch)
+##Send command with a client
+```
+
+### Update domains with brdomain extension
+```python
+# First create a BrEppUpdateDomainCommand, after add the extension
+brdomain = EppUpdateBrDomain('ab-1234', chg=ChgBrDomain(flag1=1, publicationstatus=PublicationStatus.ONHOLD,
+                                                        autorenew=True))
+command.add_command_extension(brdomain)
 ##Send command with a client
 ```
 
