@@ -374,6 +374,10 @@ def updateipnetworkcommandxmlexpected():
           <ipnetwork:allocType>assignment</ipnetwork:allocType>
           <ipnetwork:asn>2</ipnetwork:asn>
         </ipnetwork:chg>
+        <ipnetwork:aggr>
+          <ipnetwork:roid>b_123456-LACNIC</ipnetwork:roid>
+          <ipnetwork:hostName>a.a.com</ipnetwork:hostName>
+        </ipnetwork:aggr>
         <ipnetwork:creation_date>2011-01-27T00:00:00.0Z</ipnetwork:creation_date>
       </ipnetwork:update>
     </update>

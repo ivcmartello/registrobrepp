@@ -2,7 +2,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.ipnetwork.breppinfoipnetworkcommand import BrEppInfoIpNetworkCommand
+from registrobrepp.ipnetwork.brinfoipnetworkcommand import BrEppInfoIpNetworkCommand
 from registrobrepp.ipnetwork.iprange import IpRange
 
 

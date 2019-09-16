@@ -2,7 +2,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.ipnetwork.breppcreateipnetworkcommand import BrEppCreateIpNetworkCommand
+from registrobrepp.ipnetwork.brcreateipnetworkcommand import BrEppCreateIpNetworkCommand
 from registrobrepp.ipnetwork.contactipnetwork import ContactIpNetwork
 from registrobrepp.ipnetwork.dsdata import DsData
 from registrobrepp.ipnetwork.iprange import IpRange
@@ -16,9 +16,9 @@ class TestBrCreateIpNetworkCommand:
         iprange = IpRange('192.168.16.0', '192.168.31.255')
         organization = 'BR-ABC-LACNIC'
         alloctype = 'assignment'
-        contact = ContactIpNetwork.build('ABC123', admin=True)
-        reversedns = ReverseDns(IpRange('192.168.16.0', '192.168.17.255'), ['a.example.com', 'b.example.com'])
-        dsdata = DsData(IpRange('192.168.16.0', '192.168.16.255'), '12345', 3, 1, '49FD46E6C4B45C55D4AC')
+        contact = [ContactIpNetwork.build('ABC123', admin=True)]
+        reversedns = [ReverseDns(IpRange('192.168.16.0', '192.168.17.255'), ['a.example.com', 'b.example.com'])]
+        dsdata = [DsData(IpRange('192.168.16.0', '192.168.16.255'), '12345', 3, 1, '49FD46E6C4B45C55D4AC')]
         command = BrEppCreateIpNetworkCommand(iprange, organization, alloctype, contact, reversedns, dsdata)
         command.add_clTRID('ABC-12345')
         return command

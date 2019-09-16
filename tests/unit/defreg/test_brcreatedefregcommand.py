@@ -5,7 +5,7 @@ from eppy.doc import EppResponse
 from lxml import etree
 
 from registrobrepp.common.authinfo import AuthInfo
-from registrobrepp.defreg.breppcreatedefregcommand import BrEppCreateDefRegCommand
+from registrobrepp.defreg.brcreatedefregcommand import BrEppCreateDefRegCommand
 from registrobrepp.defreg.leveltype import LevelType
 from registrobrepp.defreg.namedefreg import NameDefReg
 

@@ -2,7 +2,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.defreg.breppcheckdefregcommand import BrEppCheckDefRegCommand
+from registrobrepp.defreg.brcheckdefregcommand import BrEppCheckDefRegCommand
 from registrobrepp.defreg.leveltype import LevelType
 from registrobrepp.defreg.namedefreg import NameDefReg
 

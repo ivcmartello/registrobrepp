@@ -6,7 +6,10 @@ from registrobrepp.common.periodtype import PeriodType
 
 
 class BrEppRenewIpNetworkCommand(EppRenewCommand):
-    def __init__(self, roid: str, curexpdate: datetime, period: int, periodtype: PeriodType = PeriodType.YEAR):
+    def __init__(self, roid: str, curexpdate: datetime, period: int = 0, periodtype: PeriodType = PeriodType.YEAR):
+        pd = None
+        if period > 0:
+            pd = {'@unit': periodtype.value, '_text': period}
         dct = {
             'epp': {
                 'command': {
@@ -14,7 +17,7 @@ class BrEppRenewIpNetworkCommand(EppRenewCommand):
                         'ipnetwork:renew': {
                             'roid': roid,
                             'curExpDate': curexpdate.strftime('%Y-%m-%dT%H:%M:%S.0Z'),
-                            'period': {'@unit': periodtype.value, '_text': period}
+                            'period': pd
                         }
                     }
                 }

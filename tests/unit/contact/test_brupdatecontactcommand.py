@@ -40,7 +40,7 @@ class TestBrUpdateContactCommand:
     def updatecontactcommand(self):
         authinfo = AuthInfo('123')
         addr = Addr('123 Example Dr.', 'Suite 100', 'Dulles', 'US', street3='xyz', sp='VA', pc='20166-6503')
-        voice = Phone('1234', '+1.7035555555')
+        voice = Phone('+1.7035555555', '1234')
         postalinfo = PostalInfo.build('Joe Doe', addr, 'Example Inc.')
         postalinfo2 = PostalInfo.build('Anna Doe', addr, 'Example Inc.', international=True)
         disclose = Disclose(flag=True, name_int=True, org_int=True, addr_int=True, voice=True, fax=True, email=True)
@@ -57,6 +57,10 @@ class TestBrUpdateContactCommand:
 
         assert contactxmlschema.validate(etree.fromstring(xml))
         assert xml == updatecontactcommandxmlexpected
+
+    def test_update_contact_command_without_add_rem_chg(self, ):
+        with pytest.raises(ValueError, match='At least one <contact:add>, <contact:rem>, or <contact:chg> element MUST be provided'):
+            BrEppUpdateContactCommand('ab-12345')
 
     def test_update_contact_with_lacnic_command(self, updatecontactcommand, updatecontactcommandwithlacnicxmlexpected):
         add = [Property('bulkwhois')]
@@ -92,6 +96,7 @@ class TestBrUpdateContactCommand:
         assert brorgxmlschema.validate(etree.fromstring(brorgxml))
         assert lacnicorgxmlschema.validate(etree.fromstring(lacnicorgxml))
         assert xml == updatecontactcommandwithbrorgandlacnicorgxmlexpected
+
 
     def test_update_contact_response(self, contactxmlschema, responseupdatecontactcommandxmlexpected):
         response = EppResponse.from_xml(responseupdatecontactcommandxmlexpected)

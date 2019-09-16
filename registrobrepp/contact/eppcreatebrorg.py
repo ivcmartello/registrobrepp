@@ -4,7 +4,7 @@ from eppy.doc import EppDoc
 class EppCreateBrOrg(EppDoc):
     _path = ('brorg:create',)
 
-    def __init__(self, organization: str, contacts: list, responsible: str):
+    def __init__(self, organization: str, contacts: list, responsible: str = None):
         dct = {
             'brorg:create': {
                 'organization': organization,

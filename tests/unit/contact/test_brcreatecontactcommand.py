@@ -22,7 +22,7 @@ class TestBrCreateContactCommand:
     @pytest.fixture
     def createcontactcommand(self):
         addr = Addr('123 Example Dr.', 'Suite 100', 'Dulles', 'US', street3='xyz', sp='VA', pc='20166-6503')
-        voice = Phone('1234', '+1.7035555555')
+        voice = Phone('+1.7035555555', '1234')
         postalinfo = PostalInfo.build('Joe Doe', addr, 'Example Inc.')
         postalinfo2 = PostalInfo.build('Anna Doe', addr, 'Example Inc.', international=True)
         authinfo = AuthInfo('123')

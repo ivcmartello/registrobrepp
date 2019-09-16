@@ -5,14 +5,27 @@ from registrobrepp.contact.chgcontact import ChgContact
 
 class BrEppUpdateContactCommand(EppUpdateContactCommand):
     def __init__(self, id: str, status_add: list = None, status_rem: list = None, chg: ChgContact = None):
+
+        if not status_add and not status_rem and not chg:
+            raise ValueError('At least one <contact:add>, <contact:rem>, or <contact:chg> element MUST be provided')
+
+        add = None
+        rem = None
+
+        if status_add:
+            add = {'status': status_add}
+
+        if status_rem:
+            rem = {'status': status_rem}
+
         dct = {
             'epp': {
                 'command': {
                     'update': {
                         'contact:update': {
                             'id': id,
-                            'add': {'status': status_add},
-                            'rem': {'status': status_rem},
+                            'add': add,
+                            'rem': rem,
                             'chg': chg
                         }
                     }

@@ -5,7 +5,7 @@ from eppy.doc import EppResponse
 from lxml import etree
 
 from registrobrepp.common.periodtype import PeriodType
-from registrobrepp.defreg.brepprenewdefregcommand import BrEppRenewDefRegCommand
+from registrobrepp.defreg.brrenewdefregcommand import BrEppRenewDefRegCommand
 
 
 class TestBrRenewDefRegCommand:

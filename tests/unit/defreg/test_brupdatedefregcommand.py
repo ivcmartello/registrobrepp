@@ -9,7 +9,7 @@ from registrobrepp.common.language import Language
 from registrobrepp.common.status import StatusDefReg
 from registrobrepp.common.statustype import StatusDefRegType
 from registrobrepp.defreg.adddefreg import AddDefReg
-from registrobrepp.defreg.breppupdatedefregcommand import BrEppUpdateDefRegCommand
+from registrobrepp.defreg.brupdatedefregcommand import BrEppUpdateDefRegCommand
 from registrobrepp.defreg.chgdefreg import ChgDefReg
 from registrobrepp.defreg.remdefreg import RemDefReg
 

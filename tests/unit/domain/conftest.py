@@ -183,6 +183,35 @@ def createdomaincommandxmlexpected():
 
 
 @pytest.fixture
+def createdomaincommandwithnshostattxmlexpected():
+    return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+  <command>
+    <create>
+      <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+        <domain:name>example.com</domain:name>
+        <domain:period unit="y">2</domain:period>
+        <domain:ns>
+          <domain:hostAttr>
+            <domain:hostName>ns1.example.com</domain:hostName>
+            <domain:hostAddr ip="v4">192.168.0.0</domain:hostAddr>
+          </domain:hostAttr>
+        </domain:ns>
+        <domain:registrant>jd1234</domain:registrant>
+        <domain:contact type="admin">sh8013</domain:contact>
+        <domain:contact type="tech">sh8013</domain:contact>
+        <domain:contact type="billing">xxx</domain:contact>
+        <domain:authInfo>
+          <domain:pw>2fooBAR</domain:pw>
+        </domain:authInfo>
+      </domain:create>
+    </create>
+    <clTRID>ABC-12345</clTRID>
+  </command>
+</epp>
+"""
+
+
+@pytest.fixture
 def createdomaincommandwithsecdnsxmlexpected():
     return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
   <command>
@@ -910,6 +939,30 @@ def updatedomaincommandwithlaunchxmlexpected():
       </launch:update>
     </extension>
     <clTRID>ABC-12345</clTRID>
+  </command>
+</epp>
+"""
+
+
+@pytest.fixture
+def updatedomaincommandwithbrdomainxmlexpected():
+    return """<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+  <command>
+    <update>
+      <domain:update xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+        <domain:name>teste.com.br</domain:name>
+      </domain:update>
+    </update>
+    <extension>
+      <brdomain:update xmlns:brdomain="urn:ietf:params:xml:ns:brdomain-1.0">
+        <brdomain:ticketNumber>ab-1234</brdomain:ticketNumber>
+        <brdomain:chg>
+          <brdomain:releaseProcessFlags flag1="1" />
+          <brdomain:autoRenew active="1" />
+          <brdomain:publicationStatus>onHold</brdomain:publicationStatus>
+        </brdomain:chg>
+      </brdomain:update>
+    </extension>
   </command>
 </epp>
 """

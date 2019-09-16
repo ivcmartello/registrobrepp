@@ -3,7 +3,7 @@ from eppy.doc import EppResponse
 from lxml import etree
 
 from registrobrepp.common.authinfo import AuthInfo
-from registrobrepp.defreg.brepptransferdefregcommand import BrEppTransferDefRegCommand
+from registrobrepp.defreg.brtransferdefregcommand import BrEppTransferDefRegCommand
 
 
 class TestBrTransferDefRegCommand:

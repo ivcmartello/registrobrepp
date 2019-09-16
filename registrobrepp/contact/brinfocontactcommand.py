@@ -4,7 +4,7 @@ from registrobrepp.common.authinfo import AuthInfo
 
 
 class BrEppInfoContactCommand(EppInfoContactCommand):
-    def __init__(self, id: str, authinfo: AuthInfo):
+    def __init__(self, id: str, authinfo: AuthInfo = None):
         dct = {
             'epp': {
                 'command': {

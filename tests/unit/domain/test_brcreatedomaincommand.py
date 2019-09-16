@@ -9,7 +9,10 @@ from registrobrepp.domain.brcreatedomaincommand import BrEppCreateDomainCommand
 from registrobrepp.domain.eppcreatebrdomain import EppCreateBrDomain
 from registrobrepp.domain.eppcreatelaunch import EppCreateLaunch
 from registrobrepp.domain.eppcreatesecdns import EppCreateSecDns
-from registrobrepp.domain.ns import Ns
+from registrobrepp.domain.hostaddr import HostAddr
+from registrobrepp.domain.hostattr import HostAttr
+from registrobrepp.domain.nshostatt import NsHostAtt
+from registrobrepp.domain.nshostobj import NsHostObj
 from registrobrepp.domain.smd import Smd
 
 
@@ -18,7 +21,17 @@ class TestBrCreateDomainCommand:
     @pytest.fixture
     def eppcreatedomaincommand(self):
         authinfo = AuthInfo('2fooBAR')
-        ns = Ns(['ns1.example.net', 'ns2.example.net'])
+        ns = NsHostObj(['ns1.example.net', 'ns2.example.net'])
+        contacts = [ContactDomain.build('sh8013', admin=True), ContactDomain.build('sh8013', tech=True),
+                    ContactDomain.build('xxx')]
+        command = BrEppCreateDomainCommand('example.com', ns, authinfo, 2, PeriodType.YEAR, 'jd1234', contacts)
+        command.add_clTRID('ABC-12345')
+        return command
+
+    @pytest.fixture
+    def eppcreatedomaincommand_with_nshostatt(self):
+        authinfo = AuthInfo('2fooBAR')
+        ns = NsHostAtt([HostAttr('ns1.example.com', [HostAddr('192.168.0.0')])])
         contacts = [ContactDomain.build('sh8013', admin=True), ContactDomain.build('sh8013', tech=True),
                     ContactDomain.build('xxx')]
         command = BrEppCreateDomainCommand('example.com', ns, authinfo, 2, PeriodType.YEAR, 'jd1234', contacts)
@@ -30,6 +43,12 @@ class TestBrCreateDomainCommand:
 
         assert domainxmlschema.validate(etree.fromstring(xml))
         assert xml == createdomaincommandxmlexpected
+
+    def test_create_domain_command_with_nshostatt(self, eppcreatedomaincommand_with_nshostatt, domainxmlschema, createdomaincommandwithnshostattxmlexpected):
+        xml = eppcreatedomaincommand_with_nshostatt.to_xml(force_prefix=True).decode()
+
+        assert domainxmlschema.validate(etree.fromstring(xml))
+        assert xml == createdomaincommandwithnshostattxmlexpected
 
     def test_create_domain_command_with_secdns_extension(self, eppcreatedomaincommand, createdomaincommandwithsecdnsxmlexpected):
         secdns = EppCreateSecDns('12345', 3, 1, '49FD46E6C4B45C55D4AC')

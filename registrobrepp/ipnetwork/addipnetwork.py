@@ -2,8 +2,9 @@ from eppy.xmldict import XmlDictObject
 
 
 class AddIpNetwork(XmlDictObject):
-    def __init__(self, dsdata: list, contact: list = None):
+    def __init__(self, reversedns: list = None, dsdata: list = None, contact: list = None):
         dct = {
+            'reverseDNS': reversedns,
             'dsData': dsdata,
             'contact': contact
         }

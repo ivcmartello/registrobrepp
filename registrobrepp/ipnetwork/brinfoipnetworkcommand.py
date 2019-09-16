@@ -4,7 +4,7 @@ from registrobrepp.ipnetwork.iprange import IpRange
 
 
 class BrEppInfoIpNetworkCommand(EppInfoCommand):
-    def __init__(self, iprange: IpRange, roid: str):
+    def __init__(self, iprange: IpRange, roid: str = None):
         dct = {
             'epp': {
                 'command': {

@@ -15,9 +15,9 @@ class BrEppRenewDomainCommand(EppRenewDomainCommand):
                 'command': {
                     'renew': {
                         'domain:renew': {
-                            'period': pd,
                             'name': name,
-                            'curExpDate': curexpdate.strftime('%Y-%m-%d')
+                            'curExpDate': curexpdate.strftime('%Y-%m-%d'),
+                            'period': pd
                         }
                     }
                 }

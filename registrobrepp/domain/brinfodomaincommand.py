@@ -5,7 +5,7 @@ from registrobrepp.domain.infohost import InfoHost
 
 
 class BrEppInfoDomainCommand(EppInfoDomainCommand):
-    def __init__(self, name: str, authinfo: AuthInfo, hosts: InfoHost = InfoHost.ALL):
+    def __init__(self, name: str, authinfo: AuthInfo = None, hosts: InfoHost = InfoHost.ALL):
         dct = {
             'epp': {
                 'command': {

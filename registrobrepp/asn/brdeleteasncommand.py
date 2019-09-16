@@ -1,7 +1,7 @@
-from eppy.doc import EppCommand
+from eppy.doc import EppDeleteCommand
 
 
-class BrEppDeleteAsnCommand(EppCommand):
+class BrEppDeleteAsnCommand(EppDeleteCommand):
     _path = ('epp', 'command', 'delete', 'asn:delete')
 
     def __init__(self, number: int):

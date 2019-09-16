@@ -1,5 +1,6 @@
 import datetime
 
+import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
@@ -29,6 +30,12 @@ class TestBrUpdateAsnCommand:
 
         assert asnxmlschema.validate(etree.fromstring(xml))
         assert xml == updateasncommandxmlexpected
+
+    def test_update_asn_command_without_add_rem_chg(self):
+        number = 64500
+        creationdate = datetime.datetime(2011, 1, 27, 00, 00, 00)
+        with pytest.raises(ValueError, match='At least one <asn:add>, <asn:rem>, or <asn:chg> element MUST be provided'):
+            BrEppUpdateAsnCommand(number, creationdate)
 
     def test_update_asn_response(self, asnxmlschema, responseupdateasncommandxmlexpected):
         response = EppResponse.from_xml(responseupdateasncommandxmlexpected,

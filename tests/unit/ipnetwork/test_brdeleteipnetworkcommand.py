@@ -2,7 +2,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.ipnetwork.breppdeleteipnetworkcommand import BrEppDeleteIpNetworkCommand
+from registrobrepp.ipnetwork.brdeleteipnetworkcommand import BrEppDeleteIpNetworkCommand
 
 
 class TestBrDeleteIpNetworkCommand:

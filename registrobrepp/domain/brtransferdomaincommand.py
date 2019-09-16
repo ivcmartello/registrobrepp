@@ -5,7 +5,8 @@ from registrobrepp.common.periodtype import PeriodType
 
 
 class BrEppTransferDomainCommand(EppTransferDomainCommand):
-    def __init__(self, op: str, name: str, authinfo: AuthInfo, period: int = 0, periodunit: PeriodType = PeriodType.YEAR):
+    def __init__(self, op: str, name: str, authinfo: AuthInfo = None, period: int = 0,
+                 periodunit: PeriodType = PeriodType.YEAR):
         super(BrEppTransferDomainCommand, self).__init__(op)
         self.name = name
         if period > 0:

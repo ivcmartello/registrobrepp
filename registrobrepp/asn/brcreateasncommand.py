@@ -1,7 +1,7 @@
-from eppy.doc import EppCommand
+from eppy.doc import EppCreateCommand
 
 
-class BrEppCreateAsnCommand(EppCommand):
+class BrEppCreateAsnCommand(EppCreateCommand):
     _path = ('epp', 'command', 'create', 'asn:create')
 
     def __init__(self, number: int, organization: str, contacts: list, asIn: list = None, asOut: list = None):

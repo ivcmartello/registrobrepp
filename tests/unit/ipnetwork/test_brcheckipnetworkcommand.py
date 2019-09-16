@@ -2,16 +2,16 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.ipnetwork.breppcheckipnetworkcommand import BrEppCheckIpNetworkCommand
+from registrobrepp.ipnetwork.brcheckipnetworkcommand import BrEppCheckIpNetworkCommand
+from registrobrepp.ipnetwork.iprange import IpRange
 
 
 class TestBrCheckIpNetworkCommand:
 
     @pytest.fixture
     def ipnetworkcommand(self):
-        startAddress = '192.168.0.0'
-        endAddress = '192.168.0.255'
-        command = BrEppCheckIpNetworkCommand(startAddress, endAddress)
+        iprange = [IpRange('192.168.0.0', '192.168.0.255')]
+        command = BrEppCheckIpNetworkCommand(iprange)
         command.add_clTRID('ABC-12345')
         return command
 

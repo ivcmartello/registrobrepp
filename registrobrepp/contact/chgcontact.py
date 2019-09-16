@@ -7,7 +7,7 @@ from registrobrepp.contact.postalinfo import PostalInfo
 
 
 class ChgContact(XmlDictObject):
-    def __init__(self, postalinfo1: PostalInfo, email: str, authinfo: AuthInfo, postalinfo2: PostalInfo = None,
+    def __init__(self, postalinfo1: PostalInfo, email: str = None, authinfo: AuthInfo = None, postalinfo2: PostalInfo = None,
                  voice: Phone = None, fax: Phone = None, disclose: Disclose = None):
         postalinfo = [postalinfo1]
         if postalinfo2:

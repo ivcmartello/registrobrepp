@@ -1,14 +1,11 @@
 from eppy.doc import EppCreateCommand
 
-from registrobrepp.ipnetwork.contactipnetwork import ContactIpNetwork
-from registrobrepp.ipnetwork.dsdata import DsData
 from registrobrepp.ipnetwork.iprange import IpRange
-from registrobrepp.ipnetwork.reversedns import ReverseDns
 
 
 class BrEppCreateIpNetworkCommand(EppCreateCommand):
-    def __init__(self, iprange: IpRange, organization: str, alloctype: str, contact: ContactIpNetwork,
-                 reversedns: ReverseDns, dsdata: DsData):
+    def __init__(self, iprange: IpRange, organization: str, alloctype: str = None, contact: list = None,
+                 reversedns: list = None, dsdata: list = None):
         dct = {
             'epp': {
                 'command': {

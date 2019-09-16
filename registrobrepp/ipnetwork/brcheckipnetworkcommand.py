@@ -2,17 +2,13 @@ from eppy.doc import EppCheckCommand
 
 
 class BrEppCheckIpNetworkCommand(EppCheckCommand):
-    def __init__(self, startaddress: str, endaddress: str):
+    def __init__(self, iprange: list):
         dct = {
             'epp': {
                 'command': {
                     'check': {
                         'ipnetwork:check': {
-                            'ipRange': {
-                                '@version': 'v4',
-                                'startAddress': startaddress,
-                                'endAddress': endaddress
-                            }
+                            'ipRange': iprange
                         }
                     }
                 }

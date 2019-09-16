@@ -2,7 +2,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.ipnetwork.brepptransferipnetworkcommand import BrEppTransferIpNetworkCommand
+from registrobrepp.ipnetwork.brtransferipnetworkcommand import BrEppTransferIpNetworkCommand
 
 
 class TestBrTransferIpNetworkCommand:

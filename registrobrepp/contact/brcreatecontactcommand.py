@@ -7,7 +7,7 @@ from registrobrepp.contact.postalinfo import PostalInfo
 
 
 class BrEppCreateContactCommand(EppCreateContactCommand):
-    def __init__(self, id, postalinfo1: PostalInfo, email: str, authinfo: AuthInfo, postalinfo2: PostalInfo = None,
+    def __init__(self, id: str, postalinfo1: PostalInfo, email: str, authinfo: AuthInfo = None, postalinfo2: PostalInfo = None,
                  voice: Phone = None, fax: Phone = None, disclose: Disclose = None):
         postalInfo = [postalinfo1]
         if postalinfo2:

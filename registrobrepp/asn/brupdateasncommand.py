@@ -11,6 +11,10 @@ class BrEppUpdateAsnCommand(EppCommand):
     _path = ('epp', 'command', 'update', 'asn:update')
 
     def __init__(self, number: int, creationdate: datetime, add: AddAsn = None, rem: RemAsn = None, chg: ChgAsn = None):
+
+        if not add and not rem and not chg:
+            raise ValueError('At least one <asn:add>, <asn:rem>, or <asn:chg> element MUST be provided')
+
         dct = {
             'epp': {
                 'command': {

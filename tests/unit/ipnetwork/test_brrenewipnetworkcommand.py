@@ -4,7 +4,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.ipnetwork.brepprenewipnetworkcommand import BrEppRenewIpNetworkCommand
+from registrobrepp.ipnetwork.brrenewipnetworkcommand import BrEppRenewIpNetworkCommand
 
 
 class TestBrRenewIpNetworkCommand:

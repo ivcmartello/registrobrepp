@@ -1,14 +1,17 @@
 import datetime
 
-from eppy.doc import EppCommand
+from eppy.doc import EppRenewCommand
 
 from registrobrepp.common.periodtype import PeriodType
 
 
-class BrEppRenewAsnCommand(EppCommand):
+class BrEppRenewAsnCommand(EppRenewCommand):
     _path = ('epp', 'command', 'renew', 'asn:renew')
 
     def __init__(self, number: int, curexpdate: datetime, period: int, periodtype: PeriodType = PeriodType.YEAR):
+        pd = None
+        if period > 0:
+            pd = {'@unit': periodtype.value, '_text': period}
         dct = {
             'epp': {
                 'command': {
@@ -16,7 +19,7 @@ class BrEppRenewAsnCommand(EppCommand):
                         'asn:renew': {
                             'number': number,
                             'curExpDate': curexpdate.strftime('%Y-%m-%dT%H:%M:%S.0Z'),
-                            'period': {'@unit': periodtype.value, '_text': period}
+                            'period': pd
                         }
                     }
                 }

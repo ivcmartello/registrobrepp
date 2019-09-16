@@ -1,7 +1,7 @@
-from eppy.doc import EppCommand
+from eppy.doc import EppInfoCommand
 
 
-class BrEppInfoAsnCommand(EppCommand):
+class BrEppInfoAsnCommand(EppInfoCommand):
     _path = ('epp', 'command', 'info', 'asn:info')
 
     def __init__(self, number: int):

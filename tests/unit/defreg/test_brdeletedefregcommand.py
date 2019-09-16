@@ -2,7 +2,7 @@ import pytest
 from eppy.doc import EppResponse
 from lxml import etree
 
-from registrobrepp.defreg.breppdeletedefregcommand import BrEppDeleteDefRegCommand
+from registrobrepp.defreg.brdeletedefregcommand import BrEppDeleteDefRegCommand
 
 
 class TestBrDeleteDefRegCommand:

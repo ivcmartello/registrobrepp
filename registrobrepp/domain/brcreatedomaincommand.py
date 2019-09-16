@@ -1,12 +1,12 @@
 from eppy.doc import EppCreateDomainCommand
+from eppy.xmldict import XmlDictObject
 
 from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.common.periodtype import PeriodType
-from registrobrepp.domain.ns import Ns
 
 
 class BrEppCreateDomainCommand(EppCreateDomainCommand):
-    def __init__(self, name,  ns: Ns, authinfo: AuthInfo, period: int = 0, periodtype: PeriodType = PeriodType.YEAR,
+    def __init__(self, name,  ns: XmlDictObject, authinfo: AuthInfo = None, period: int = 0, periodtype: PeriodType = PeriodType.YEAR,
                  registrant: str = None, contacts: list = None):
         pd = None
         if period > 0:

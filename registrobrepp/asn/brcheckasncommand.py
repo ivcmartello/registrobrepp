@@ -1,7 +1,7 @@
-from eppy.doc import EppCommand
+from eppy.doc import EppCheckCommand
 
 
-class BrEppCheckAsnCommand(EppCommand):
+class BrEppCheckAsnCommand(EppCheckCommand):
     _path = ('epp', 'command', 'check', 'asn:check')
 
     def __init__(self, numbers: list):

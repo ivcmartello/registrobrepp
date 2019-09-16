@@ -7,12 +7,15 @@ from lxml import etree
 from registrobrepp.common.authinfo import AuthInfo
 from registrobrepp.common.language import Language
 from registrobrepp.common.statustype import StatusDomainType
+from registrobrepp.domain.chgbrdomain import ChgBrDomain
 from registrobrepp.domain.contactdomain import ContactDomain
 from registrobrepp.domain.brupdatedomaincommand import ChgDomain, BrEppUpdateDomainCommand, AddDomain, RemDomain
+from registrobrepp.domain.eppupdatebrdomain import EppUpdateBrDomain
 from registrobrepp.domain.eppupdatelaunch import EppUpdateLaunch
 from registrobrepp.domain.eppupdatergp import EppUpdateRgp
 from registrobrepp.domain.eppupdatesecdns import EppUpdateSecDns
-from registrobrepp.domain.ns import Ns
+from registrobrepp.domain.nshostobj import NsHostObj
+from registrobrepp.domain.publicationstatus import PublicationStatus
 from registrobrepp.domain.statement import Statement
 from registrobrepp.common.status import StatusDomain
 
@@ -22,11 +25,11 @@ class TestBrUpdateDomainCommand:
     @pytest.fixture
     def updatedomaincommand(self):
         authinfo = AuthInfo('2BARfoo')
-        ns = Ns(['ns2.example.com'])
+        ns = NsHostObj(['ns2.example.com'])
         contact = ContactDomain.build(info='mak21', tech=True)
         statusadd = StatusDomain(StatusDomainType.CLIENTHOLD, 'Payment overdue.', Language.EN)
         add = AddDomain(ns, contact, statusadd)
-        ns = Ns(['ns1.example.com'])
+        ns = NsHostObj(['ns1.example.com'])
         contact = ContactDomain.build(info='sh8013', tech=True)
         statusrem = StatusDomain(StatusDomainType.CLIENTUPDATEPROHIBITED)
         rem = RemDomain(ns, contact, statusrem)
@@ -78,6 +81,15 @@ class TestBrUpdateDomainCommand:
         xml = updatedomaincommand.to_xml(force_prefix=True).decode()
 
         assert xml == updatedomaincommandwithlaunchxmlexpected
+
+    def test_update_domain_command_with_brdomain_extension(self, updatedomaincommandwithbrdomainxmlexpected):
+        brdomain = EppUpdateBrDomain('ab-1234', chg=ChgBrDomain(flag1=1, publicationstatus=PublicationStatus.ONHOLD,
+                                                                autorenew=True))
+        updatedomaincommand = BrEppUpdateDomainCommand('teste.com.br')
+        updatedomaincommand.add_command_extension(brdomain)
+        xml = updatedomaincommand.to_xml(force_prefix=True).decode()
+
+        assert xml == updatedomaincommandwithbrdomainxmlexpected
 
     def test_update_domain_response(self, domainxmlschema, responseupdatedomaincommandxmlexpected):
         response = EppResponse.from_xml(responseupdatedomaincommandxmlexpected)
