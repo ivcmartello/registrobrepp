@@ -55,12 +55,12 @@ class TestBrEppClientHomologation:
         cls.registrobr = BrEppClient(host='beta.registro.br', port=700, ssl_certfile=client, ssl_cacerts=root)
 
         # Modificar conforme necessidade
-        cls.doc1 = '93.586.939/0001-60'
-        cls.dominio1 = 'dominiohomologa1.com.br'
-        cls.dominio2 = 'dominiohomologa2.com.br'
-        cls.contact1 = 'contacthomologa1'
-        cls.org1 = 'organizationhomologa1'
-        cls.newcontact1 = 'newcontacthomologa1'
+        cls.doc1 = '43.498.909/0001-24'
+        cls.dominio1 = 'dominiohomologa3.com.br'
+        cls.dominio2 = 'dominiohomologa4.com.br'
+        cls.contact1 = 'contacthomologa2'
+        cls.org1 = 'organizationhomologa2'
+        cls.newcontact1 = 'newcontacthomologa2'
 
     @classmethod
     def teardown_class(cls):
@@ -77,7 +77,9 @@ class TestBrEppClientHomologation:
         password = config('EPPPASSWORD')
         newpassword = config('EPPNEWPASSWORD')
         response = self.registrobr.login(username, password, newpassword)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         response = self.registrobr.hello()
         assert response
@@ -94,7 +96,9 @@ class TestBrEppClientHomologation:
         username = config('EPPUSERNAME')
         newpassword = config('EPPNEWPASSWORD')
         response = self.registrobr.login(username, newpassword)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.2.1. Create
         # Executar o comando EPP Contact Create para criar um novo contato.
@@ -103,7 +107,9 @@ class TestBrEppClientHomologation:
         voice = Phone('55.1155555555')
         command = BrEppCreateContactCommand(self.contact1, postalinfo, 'abc@digisat.com.br', voice=voice)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.2.2. Info
         # Executar o comando EPP Contact Info para buscar informacoes do
@@ -112,7 +118,9 @@ class TestBrEppClientHomologation:
         contactdata1 = response['epp']['response']['resData']['contact:creData']
         command = BrEppInfoContactCommand(contactdata1.id)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         if os.path.isfile('test.txt'):
             os.remove('test.txt')
@@ -133,7 +141,9 @@ class TestBrEppClientHomologation:
         chg = ChgContact(postalinfo, 'ivan@digisat.com.br', voice=voice)
         command = BrEppUpdateContactCommand(contactdata1.id, chg=chg)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.3.1. Check
         # Executar o comando EPP Contact Check extendido para Organizacao para
@@ -145,7 +155,9 @@ class TestBrEppClientHomologation:
         brorg = EppCheckBrOrg(cds)
         command.add_command_extension(brorg)
         response = self.registrobr.send(command, extra_nsmap={'brorg': 'urn:ietf:params:xml:ns:brorg-1.0'})
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.3.2. Create
         # Executar o comando EPP Contact Create extendido para Organizacao para
@@ -160,7 +172,9 @@ class TestBrEppClientHomologation:
         command = BrEppCreateContactCommand(self.org1, postalinfo, 'ivan@digisat.com.br', voice=voice)
         command.add_command_extension(brorg)
         response = self.registrobr.send(command, extra_nsmap={'brorg': 'urn:ietf:params:xml:ns:brorg-1.0'})
-        assert response
+        assert response.pending
+        assert response.code == '1001'
+        assert response.success
 
         # 2.3.3. Info
         # Executar o comando EPP Contact Info extendido para Organizacao para
@@ -170,7 +184,9 @@ class TestBrEppClientHomologation:
         command = BrEppInfoContactCommand(orgdata1.id)
         command.add_command_extension(brorg)
         response = self.registrobr.send(command, extra_nsmap={'brorg': 'urn:ietf:params:xml:ns:brorg-1.0'})
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.4.1. Domain Check
         # Executar o comando EPP Domain Check como especificado no Mapping de
@@ -179,7 +195,9 @@ class TestBrEppClientHomologation:
         names = [self.dominio1]
         command = BrEppCheckDomainCommand(names)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.4.2. Domain Create
         # Executar o comando EPP Domain Create extendido para dominios .BR.  O
@@ -198,7 +216,9 @@ class TestBrEppClientHomologation:
         brdomain = EppCreateBrDomain(self.doc1)
         command.add_command_extension(brdomain)
         response = self.registrobr.send(command, extra_nsmap={'brdomain': 'urn:ietf:params:xml:ns:brdomain-1.0'})
-        assert response
+        assert response.pending
+        assert response.code == '1001'
+        assert response.success
 
         # 2.4.3. Ticket Info
         # O comando anterior, se executado com sucesso, retornara um numero de
@@ -210,7 +230,9 @@ class TestBrEppClientHomologation:
         brdomain = EppInfoBrDomain(domainextension1.ticketNumber)
         command.add_command_extension(brdomain)
         response = self.registrobr.send(command, extra_nsmap={'brdomain': 'urn:ietf:params:xml:ns:brdomain-1.0'})
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.4.4. Ticket Update
         # Executar o comando EPP Domain Update extendido para Ticket para fazer
@@ -230,7 +252,9 @@ class TestBrEppClientHomologation:
         brdomain = EppUpdateBrDomain(domainextension1.ticketNumber)
         command.add_command_extension(brdomain)
         response = self.registrobr.send(command, extra_nsmap={'brdomain': 'urn:ietf:params:xml:ns:brdomain-1.0'})
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
         # Neste momento, uma vez resolvidas todas as pendencias do ticket
         # criado, e necessario aguardar para que o mesmo seja processado (ate
         # 15 minutos).
@@ -243,7 +267,9 @@ class TestBrEppClientHomologation:
         names = [self.dominio2]
         command = BrEppCheckDomainCommand(names)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         ns = NsHostAtt([HostAttr('a.auto.dns.br'),
                         HostAttr('b.auto.dns.br')])
@@ -251,7 +277,9 @@ class TestBrEppClientHomologation:
         brdomain = EppCreateBrDomain(self.doc1)
         command.add_command_extension(brdomain)
         response = self.registrobr.send(command, extra_nsmap={'brdomain': 'urn:ietf:params:xml:ns:brdomain-1.0'})
-        assert response
+        assert response.pending
+        assert response.code == '1001'
+        assert response.success
         # Neste momento, uma vez criado o ticket sem pendencias, e necessario
         # aguardar para que o mesmo seja processado e convertido em dominio
         # (ate 15 minutos).
@@ -277,7 +305,9 @@ class TestBrEppClientHomologation:
         username = config('EPPUSERNAME')
         newpassword = config('EPPNEWPASSWORD')
         response = self.registrobr.login(username, newpassword)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.6.1. Poll Request
         # Executar o comando EPP Poll Request para requisitar a primeira
@@ -316,7 +346,9 @@ class TestBrEppClientHomologation:
         command = BrEppUpdateContactCommand(self.org1, chg=chg)
         command.add_command_extension(brorg)
         response = self.registrobr.send(command, extra_nsmap={'brorg': 'urn:ietf:params:xml:ns:brorg-1.0'})
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.7.2. Organization Info
         # Executar o comando EPP Contact Info para buscar as informacoes
@@ -325,14 +357,18 @@ class TestBrEppClientHomologation:
         command = BrEppInfoContactCommand(self.org1)
         command.add_command_extension(brorg)
         response = self.registrobr.send(command, extra_nsmap={'brorg': 'urn:ietf:params:xml:ns:brorg-1.0'})
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.7.3. Domain Info
         # Executar o comando EPP Domain Info para checar os dados do dominio
         # recem-criado.
         command = BrEppInfoDomainCommand(self.dominio1)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.7.4. Domain Renew
         # Executar o comando EPP Domain Renew para renovar o dominio por um ano
@@ -342,7 +378,9 @@ class TestBrEppClientHomologation:
         expdate_obj = datetime.datetime.strptime(expdate, '%Y-%m-%dT%H:%M:%S.0Z')
         command = BrEppRenewDomainCommand(self.dominio1, expdate_obj, 1)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.7.5. Domain Update - Contatos
         # Criar um novo contato e executar o comando EPP Domain Update para
@@ -352,7 +390,9 @@ class TestBrEppClientHomologation:
         voice = Phone('55.1155555555')
         command = BrEppCreateContactCommand(self.newcontact1, postalinfo, 'ivan@digisat.com.br', voice=voice)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         newcontact1 = response['epp']['response']['resData']['contact:creData']
         ctd1 = ContactDomain.build(newcontact1.id)
@@ -361,7 +401,9 @@ class TestBrEppClientHomologation:
         rem = RemDomain(contact=ctd2)
         command = BrEppUpdateDomainCommand(self.dominio1, add=add, rem=rem)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.7.6. Domain Update - Habilitar Renovacao Automatica
         # Executar o comando EPP Domain Update para habilitar a renovacao
@@ -372,7 +414,9 @@ class TestBrEppClientHomologation:
         brdomain = EppUpdateBrDomain(chg=ChgBrDomain(autorenew=True))
         command.add_command_extension(brdomain)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.7.7. Domain Update - Desabilitar Renovacao Automatica
         # Executar o comando EPP Domain Update para desabilitar a renovacao
@@ -383,13 +427,17 @@ class TestBrEppClientHomologation:
         brdomain = EppUpdateBrDomain(chg=ChgBrDomain(autorenew=False))
         command.add_command_extension(brdomain)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         # 2.7.8. Domain Delete
         # Executar o comando EPP Domain Delete para excluir o segundo dominio
         # criado anteriormente.
         command = BrEppDeleteDomainCommand(self.dominio2)
         response = self.registrobr.send(command)
-        assert response
+        assert response.ok
+        assert response.code == '1000'
+        assert response.success
 
         self.registrobr.logout()

@@ -1,6 +1,6 @@
 # registrobrepp
 
-[![Build Status](https://travis-ci.org/ivcmartello/registrobrepp.png?branch=master)](https://travis-ci.org/ivcmartello/registrobrepp)
+[![Build Status](https://travis-ci.com/ivcmartello/registrobrepp.svg?branch=master)](https://travis-ci.org/ivcmartello/registrobrepp)
 
 ## About
 
@@ -102,10 +102,19 @@ username = 'user'
 password = '123'
 resp = registrobr.login(username, password, obj_uris=ouris, extra_ext_uris=euris)
 
-#Send a command (BrEppCheckContact, BrEppCheckDomainCommand, etc.)
+##Create a command (BrEppCheckContact, BrEppCheckDomainCommand, etc.)
 names = ['du.eti.br', 'nic.br', 'registro.br']
 command = BrEppCheckDomainCommand(names)
+
+##The command accept extensions:
+brdomain = EppCheckBrDomain('000.000.000/0000-00')
+command.add_command_extension(brdomain)
+
+##Send a command
 resp = registrobr.send(command)
+##Or
+##If you want to apply the prefix at the response extension, just set extra_nsmap:
+resp = registrobr.send(command, extra_nsmap={'brdomain': 'urn:ietf:params:xml:ns:brdomain-1.0'})
 
 ##Logout
 registrobr.logout()
