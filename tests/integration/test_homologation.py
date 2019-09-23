@@ -29,6 +29,7 @@ from registrobrepp.domain.brinfodomaincommand import BrEppInfoDomainCommand
 from registrobrepp.domain.brrenewdomaincommand import BrEppRenewDomainCommand
 from registrobrepp.domain.brupdatedomaincommand import BrEppUpdateDomainCommand
 from registrobrepp.domain.contactdomain import ContactDomain
+
 from registrobrepp.domain.eppcreatebrdomain import EppCreateBrDomain
 from registrobrepp.domain.eppinfobrdomain import EppInfoBrDomain
 from registrobrepp.domain.eppupdatebrdomain import EppUpdateBrDomain, ChgBrDomain
@@ -38,11 +39,11 @@ from registrobrepp.domain.nshostatt import NsHostAtt
 from registrobrepp.domain.remdomain import RemDomain
 
 
-# Documentação
+# Documentation
 # ftp://ftp.registro.br/pub/libepp-nicbr/pt-epp-accreditation-proc.txt
 
 
-# Esta classe deve ser ignorada após homologação
+# This class can be ignored after homologation
 @pytest.mark.skip
 class TestBrEppClientHomologation:
 
@@ -55,19 +56,18 @@ class TestBrEppClientHomologation:
         cls.registrobr = BrEppClient(host='beta.registro.br', port=700, ssl_certfile=client, ssl_cacerts=root)
 
         # Modificar conforme necessidade
-        cls.doc1 = '43.498.909/0001-24'
-        cls.dominio1 = 'dominiohomologa3.com.br'
-        cls.dominio2 = 'dominiohomologa4.com.br'
-        cls.contact1 = 'contacthomologa2'
-        cls.org1 = 'organizationhomologa2'
-        cls.newcontact1 = 'newcontacthomologa2'
+        cls.doc1 = '79.345.491/0001-62'
+        cls.dominio1 = 'dominiohomologa10.com.br'
+        cls.dominio2 = 'dominiohomologa11.com.br'
+        cls.contact1 = 'contacthomologa10'
+        cls.org1 = 'organizationhomologa10'
+        cls.newcontact1 = 'newcontacthomologa10'
 
     @classmethod
     def teardown_class(cls):
         # Runs at end of class
         pass
 
-    # Se rodar teste completo, tirar skip
     @pytest.mark.skip
     def test_part1(self):
         self.registrobr.connect('beta.registro.br', 700)
@@ -86,7 +86,6 @@ class TestBrEppClientHomologation:
 
         self.registrobr.logout()
 
-    # Se rodar teste completo, tirar skip
     @pytest.mark.skip
     def test_part2(self):
 
@@ -286,12 +285,8 @@ class TestBrEppClientHomologation:
 
         self.registrobr.logout()
 
-    # Se rodar teste completo, tirar skip
     @pytest.mark.skip
     def test_part3(self):
-
-        # Se rodar teste completo, tirar o comentario do sleep
-        # time.sleep(300)
 
         if not os.path.isfile('test.txt'):
             raise ValueError()
