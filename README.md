@@ -427,7 +427,8 @@ command.add_command_extension(brdomain)
 ### Create domains
 ```python
 authinfo = AuthInfo('2fooBAR')
-ns = Ns(['ns1.example.net', 'ns2.example.net'])
+ns = NsHostAtt([HostAttr('a.auto.dns.br'),
+                HostAttr('b.auto.dns.br')])
 contacts = [Contact.build('sh8013', admin=True), Contact.build('sh8013', tech=True)]
 
 command = BrEppCreateDomainCommand('example.com.br', ns, authinfo, 2, 'y', 'jd1234', contacts)
@@ -531,14 +532,17 @@ command = BrEppTransferDomainCommand('request', 'example.com.br', authinfo, peri
 ### Update domains
 ```python
 authinfo = AuthInfo('2BARfoo')
-ns = Ns(['ns2.example.com.br'])
+nsadd = NsHostAtt([HostAttr('a.auto.dns.br'),
+                   HostAttr('b.auto.dns.br')])
 contact = Contact.build(info='mak21', tech=True)
 statusadd = Status(s='clientHold', lang='en', info='Payment overdue.')
-add = AddDomain(ns, contact, statusadd)
-ns = Ns(['ns1.example.com.br'])
+add = AddDomain(nsadd, contact, statusadd)
+nsrem = NsHostAtt([HostAttr('foo.xyz.com.br'),
+                   HostAttr('ns1.bar.xyz.com.br'),
+                   HostAttr('ns2.kzx.com.br')])
 contact = Contact.build(info='sh8013', tech=True)
 statusrem = Status(s='clientUpdateProhibited')
-rem = RemDomain(ns, contact, statusrem)
+rem = RemDomain(nsrem, contact, statusrem)
 chg = ChgDomain('sh8013', authinfo)
 
 command = BrEppUpdateDomainCommand('example.com.br', add, rem, chg)
